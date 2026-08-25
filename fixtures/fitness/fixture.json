@@ -1,0 +1,29 @@
+{
+  "id": "fitness-reference-v1",
+  "domain": "fitness",
+  "archetype": "consumer health and activity",
+  "source_mode": "brief",
+  "screens": [
+    "dashboard",
+    "workout",
+    "progress",
+    "settings"
+  ],
+  "platforms": [
+    "web",
+    "swiftui",
+    "compose"
+  ],
+  "constraints": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ar"
+    ],
+    "accessibility": "AA",
+    "motion": "reduced-motion-compatible"
+  }
+}

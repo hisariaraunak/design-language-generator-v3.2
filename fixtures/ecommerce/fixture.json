@@ -1,0 +1,29 @@
+{
+  "id": "ecommerce-reference-v1",
+  "domain": "ecommerce",
+  "archetype": "commerce discovery and checkout",
+  "source_mode": "brief",
+  "screens": [
+    "browse",
+    "product",
+    "cart",
+    "checkout"
+  ],
+  "platforms": [
+    "web",
+    "swiftui",
+    "compose"
+  ],
+  "constraints": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ar"
+    ],
+    "accessibility": "AA",
+    "motion": "reduced-motion-compatible"
+  }
+}

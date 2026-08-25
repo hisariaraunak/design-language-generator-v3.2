@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "generator_version",
+    "design_system_version",
+    "execution_profile"
+  ],
+  "properties": {
+    "generator_version": {
+      "const": "3.2.0"
+    },
+    "design_system_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "execution_profile": {
+      "enum": [
+        "reference",
+        "production"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

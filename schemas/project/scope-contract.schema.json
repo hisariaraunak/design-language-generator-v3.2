@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scope-contract.schema.json",
+  "type": "object",
+  "required": ["target_platforms", "form_factors", "themes", "accessibility_target", "locales", "support_matrix", "product_surfaces", "explicit_exclusions"],
+  "properties": {
+    "target_platforms": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "form_factors": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "themes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "accessibility_target": {"type": "string"},
+    "locales": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "support_matrix": {"type": "object"},
+    "device_tiers": {"type": "array", "items": {"type": "string"}},
+    "product_surfaces": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "explicit_exclusions": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "design-language-generator"
+version = "3.2.0"
+description = "Deterministic design-language and design-system generation framework"
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6,<7", "jsonschema>=4,<5"]
+
+[project.scripts]
+dlg = "dlg.cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Canonical Visual Baseline",
+  "type": "object",
+  "required": [
+    "status",
+    "references",
+    "locked_signatures",
+    "prohibited_drift"
+  ],
+  "properties": {
+    "status": {
+      "const": "locked"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "fidelity": {
+      "type": "string"
+    },
+    "locked_signatures": {
+      "type": "object",
+      "required": [
+        "palette",
+        "typography",
+        "surfaces",
+        "density",
+        "shape",
+        "iconography",
+        "data_visualization"
+      ],
+      "additionalProperties": true
+    },
+    "prohibited_drift": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "drift_check_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

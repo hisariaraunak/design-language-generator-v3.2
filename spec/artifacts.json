@@ -1,0 +1,339 @@
+{
+  "version": "3.2.0",
+  "source_of_truth": true,
+  "artifacts": [
+    {
+      "id": "scope-contract-md",
+      "path": "SCOPE_CONTRACT.md",
+      "phase": "intake_scope",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "scope",
+      "path": "scope.json",
+      "phase": "intake_scope",
+      "required": true,
+      "schema": "scope-contract.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "visual-dna",
+      "path": "VISUAL_DNA.md",
+      "phase": "visual_dna",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "screen-inventory-json",
+      "path": "screen_inventory.json",
+      "phase": "visual_dna",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "decisions",
+      "path": "DESIGN_DECISIONS.md",
+      "phase": "interview",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "project-state-json",
+      "path": "project_state.json",
+      "phase": "interview",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "directions-md",
+      "path": "DIRECTIONS.md",
+      "phase": "directions",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "directions",
+      "path": "03-directions/directions.html",
+      "phase": "directions",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "visual-baseline-md",
+      "path": "VISUAL_BASELINE.md",
+      "phase": "baselines",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "visual-baseline",
+      "path": "visual_baseline.json",
+      "phase": "baselines",
+      "required": true,
+      "schema": "visual-baseline.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "interaction-baseline-md",
+      "path": "INTERACTION_BASELINE.md",
+      "phase": "baselines",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "interaction-baseline",
+      "path": "interaction_baseline.json",
+      "phase": "baselines",
+      "required": true,
+      "schema": "interaction-baseline.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "language",
+      "path": "DESIGN_LANGUAGE.md",
+      "phase": "language",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "tokens",
+      "path": "06-tokens/tokens.json",
+      "phase": "tokens",
+      "required": true,
+      "schema": "design-tokens.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "token-governance-md",
+      "path": "TOKEN_GOVERNANCE.md",
+      "phase": "tokens",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "components-md",
+      "path": "COMPONENTS.md",
+      "phase": "components",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "component-api-md",
+      "path": "COMPONENT_API.md",
+      "phase": "components",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "components",
+      "path": "07-components/components.json",
+      "phase": "components",
+      "required": true,
+      "schema": "component-library.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "implementation-mapping-md",
+      "path": "IMPLEMENTATION_MAPPING.md",
+      "phase": "implementation",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "cross-platform-parity-md",
+      "path": "CROSS_PLATFORM_PARITY.md",
+      "phase": "implementation",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "implementation-web",
+      "path": "08-implementation/web/components.html",
+      "phase": "implementation",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "implementation-swiftui",
+      "path": "08-implementation/swiftui/Components.swift",
+      "phase": "implementation",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "implementation-compose",
+      "path": "08-implementation/compose/Components.kt",
+      "phase": "implementation",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "playground-spec-md",
+      "path": "PLAYGROUND_SPEC.md",
+      "phase": "playground",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "motion-playground-spec-md",
+      "path": "MOTION_PLAYGROUND_SPEC.md",
+      "phase": "playground",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "responsive-validation-md",
+      "path": "RESPONSIVE_VALIDATION.md",
+      "phase": "playground",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "playground",
+      "path": "09-playground/components/index.html",
+      "phase": "playground",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "validation-md",
+      "path": "VALIDATION.md",
+      "phase": "canonical_validation",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "completeness-matrix-md",
+      "path": "COMPLETENESS_MATRIX.md",
+      "phase": "canonical_validation",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "gap-log-json",
+      "path": "gap_log.json",
+      "phase": "canonical_validation",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "canonical",
+      "path": "10-canonical-validation/canonical-screens/*.html",
+      "phase": "canonical_validation",
+      "required": true,
+      "min_bytes": 40,
+      "min_count": 5
+    },
+    {
+      "id": "production-verification-md",
+      "path": "PRODUCTION_VERIFICATION.md",
+      "phase": "production_verification",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "production-verification",
+      "path": "production-verification.json",
+      "phase": "production_verification",
+      "required": true,
+      "schema": "production-verification.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "evidence",
+      "path": "evidence.json",
+      "phase": "production_verification",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "manifest",
+      "path": "manifest.json",
+      "phase": "release_packaging",
+      "required": true,
+      "schema": "release-manifest.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "decision-log-md",
+      "path": "DECISION_LOG.md",
+      "phase": "release_packaging",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "release-manifest-md",
+      "path": "RELEASE_MANIFEST.md",
+      "phase": "release_packaging",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "release-archive",
+      "path": "release/*.zip",
+      "phase": "release_packaging",
+      "required": true,
+      "min_bytes": 2
+    },
+    {
+      "id": "governance-md",
+      "path": "GOVERNANCE.md",
+      "phase": "governance",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "registry",
+      "path": "DESIGN_SYSTEM_REGISTRY.json",
+      "phase": "governance",
+      "required": true,
+      "min_bytes": 2,
+      "schema": "design-system-registry.schema.json"
+    },
+    {
+      "id": "compatibility-matrix-md",
+      "path": "COMPATIBILITY_MATRIX.md",
+      "phase": "governance",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "contributing-md",
+      "path": "CONTRIBUTING.md",
+      "phase": "governance",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "versioning-md",
+      "path": "VERSIONING.md",
+      "phase": "governance",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "deprecations-md",
+      "path": "DEPRECATIONS.md",
+      "phase": "governance",
+      "required": true,
+      "min_bytes": 40
+    },
+    {
+      "id": "directions-json",
+      "path": "03-directions/directions.json",
+      "phase": "directions",
+      "required": true,
+      "schema": "directions.schema.json",
+      "min_bytes": 2
+    },
+    {
+      "id": "completeness-json",
+      "path": "10-canonical-validation/completeness-matrix.json",
+      "phase": "canonical_validation",
+      "required": true,
+      "schema": "completeness-matrix.schema.json",
+      "min_bytes": 2
+    }
+  ]
+}

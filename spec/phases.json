@@ -1,0 +1,23 @@
+{
+  "version": "3.2.0",
+  "phases": [
+    "intake_scope",
+    "visual_dna",
+    "interview",
+    "directions",
+    "gate_a",
+    "baselines",
+    "language",
+    "tokens",
+    "components",
+    "implementation",
+    "playground",
+    "canonical_validation",
+    "gate_b",
+    "production_verification",
+    "release_packaging",
+    "governance"
+  ],
+  "rule": "All non-gate phases are executable. Gate A and Gate B are the only human approval stops.",
+  "derived_from": "workflow.yaml"
+}

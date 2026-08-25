@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "dimensions": [
+    {
+      "id": "personality",
+      "question": "What should the product feel like?",
+      "type": "multi_select_ranked",
+      "options": [
+        "Calm + minimal",
+        "Premium + sophisticated",
+        "Friendly + approachable",
+        "Bold + energetic",
+        "Technical + precise",
+        "Playful + expressive",
+        "Custom combination"
+      ]
+    },
+    {
+      "id": "departure",
+      "question": "How far should the new language move from the current app?",
+      "type": "single_select",
+      "options": [
+        "Evolution: recognizable refinement",
+        "Major redesign: same product, new identity",
+        "Clean-sheet: preserve functionality only"
+      ]
+    },
+    {
+      "id": "density",
+      "question": "What information density should the product target?",
+      "type": "single_select",
+      "options": [
+        "Low: spacious and focused",
+        "Medium: balanced",
+        "High: information-rich",
+        "Adaptive by screen type"
+      ]
+    },
+    {
+      "id": "surface",
+      "question": "Which surface philosophy fits best?",
+      "type": "single_select_visual",
+      "options": [
+        "Mostly flat / separators",
+        "Subtle cards",
+        "Layered cards and sheets",
+        "Mixed: hierarchy determines surface"
+      ]
+    },
+    {
+      "id": "color",
+      "question": "How should color behave?",
+      "type": "single_select_visual",
+      "options": [
+        "Mostly neutral with one accent",
+        "Soft tonal palette",
+        "High-contrast functional color",
+        "Expressive multi-color system"
+      ]
+    },
+    {
+      "id": "type",
+      "question": "What should typography communicate?",
+      "type": "single_select_visual",
+      "options": [
+        "Quiet / editorial",
+        "Modern / neutral",
+        "Technical / data-centric",
+        "Friendly / rounded",
+        "Bold / expressive"
+      ]
+    },
+    {
+      "id": "geometry",
+      "question": "What shape language should dominate?",
+      "type": "single_select_visual",
+      "options": [
+        "Sharp / precise",
+        "Slightly rounded",
+        "Soft rounded",
+        "Pill-heavy",
+        "Mixed by component role"
+      ]
+    },
+    {
+      "id": "motion",
+      "question": "How noticeable should motion be?",
+      "type": "single_select",
+      "options": [
+        "Minimal / functional only",
+        "Subtle / polished",
+        "Expressive but restrained",
+        "Highly animated"
+      ]
+    },
+    {
+      "id": "platform_fidelity",
+      "question": "How closely should the UI follow native platform conventions?",
+      "type": "single_select",
+      "options": [
+        "Strongly native",
+        "Native structure + branded styling",
+        "Cross-platform identity first"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "question": "What accessibility target should the system enforce?",
+      "type": "single_select",
+      "options": [
+        "WCAG AA equivalent / platform standard",
+        "Stricter high-contrast target",
+        "Minimum viable accessibility"
+      ]
+    },
+    {
+      "id": "dark_mode",
+      "question": "Dark mode strategy?",
+      "type": "single_select",
+      "options": [
+        "Required from v1",
+        "Designed now, implemented later",
+        "Not required"
+      ]
+    },
+    {
+      "id": "reference_products",
+      "question": "Which products should influence the direction?",
+      "type": "freeform_with_examples",
+      "options": [
+        "Apple Health",
+        "Whoop",
+        "Oura",
+        "Linear",
+        "Notion",
+        "Airbnb",
+        "Other"
+      ]
+    }
+  ]
+}

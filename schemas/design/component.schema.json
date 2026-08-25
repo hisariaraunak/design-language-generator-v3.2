@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Component Specification",
+  "type": "object",
+  "required": [
+    "name",
+    "category",
+    "purpose",
+    "anatomy",
+    "variants",
+    "states",
+    "tokens",
+    "accessibility"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "foundation",
+        "primitive",
+        "control",
+        "navigation",
+        "content",
+        "feedback",
+        "data",
+        "pattern"
+      ]
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "anatomy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sizes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "behavior": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tokens": {
+      "type": "object"
+    },
+    "content_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "accessibility": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "donts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "platform_notes": {
+      "type": "object"
+    }
+  }
+}

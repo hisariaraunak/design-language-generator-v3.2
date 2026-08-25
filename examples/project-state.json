@@ -1,0 +1,29 @@
+{
+  "project": {
+    "name": "Example Product",
+    "target_platforms": [
+      "android"
+    ],
+    "implementation_stack": "Jetpack Compose"
+  },
+  "state": "intake",
+  "inputs": {
+    "screenshots": [
+      "screenshots/board.png"
+    ],
+    "brand_assets": [],
+    "references": [],
+    "scope_contract": null
+  },
+  "decisions": {},
+  "approval": {
+    "gate_a": null,
+    "gate_b": null
+  },
+  "visual_baseline": null,
+  "icon_system_validation": "pass",
+  "core_icon_count": 128,
+  "generator_version": "2.1.0",
+  "interaction_baseline": null,
+  "governance": null
+}

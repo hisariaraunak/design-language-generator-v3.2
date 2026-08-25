@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Icon System Validation",
+  "type": "object",
+  "required": [
+    "icon_system_validation",
+    "core_icon_count",
+    "categories",
+    "sizes",
+    "accessibility",
+    "rtl",
+    "motion",
+    "reduced_motion",
+    "color_contract",
+    "color_contrast",
+    "non_color_state_cues"
+  ],
+  "properties": {
+    "icon_system_validation": {
+      "const": "pass"
+    },
+    "core_icon_count": {
+      "type": "integer",
+      "minimum": 100
+    },
+    "categories": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "string"
+      }
+    },
+    "sizes": {
+      "type": "array",
+      "contains": {
+        "const": 20
+      }
+    },
+    "accessibility": {
+      "const": "pass"
+    },
+    "rtl": {
+      "const": "pass"
+    },
+    "motion": {
+      "const": "pass"
+    },
+    "reduced_motion": {
+      "const": "pass"
+    },
+    "color_contract": {
+      "const": "pass"
+    },
+    "color_contrast": {
+      "const": "pass"
+    },
+    "non_color_state_cues": {
+      "const": "pass"
+    }
+  }
+}

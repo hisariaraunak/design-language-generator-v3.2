@@ -1,0 +1,204 @@
+version: 5
+generator_version: 3.2.0
+initial_state: intake_scope
+states:
+  intake_scope:
+    next: visual_dna
+    requires:
+    - source_input.available=true
+    - scope_contract_validation=pass
+  visual_dna:
+    next: interview
+  interview:
+    next: directions
+  directions:
+    next: gate_a
+  gate_a:
+    next: baselines
+    blocking: true
+  baselines:
+    next: language
+    requires:
+    - visual_baseline.status=locked
+    - interaction_baseline.status=locked
+  language:
+    next: tokens
+    requires:
+    - visual_drift_check=pass
+    - behavior_drift_check=pass
+  tokens:
+    next: components
+    requires:
+    - token_governance_validation=pass
+  components:
+    next: implementation
+    requires:
+    - domain_neutrality_validation=pass
+    - common_app_coverage_validation=pass
+    - component_api_quality_validation=pass
+  implementation:
+    next: playground
+    requires:
+    - cross_platform_parity_validation=pass
+    - design_to_code_traceability_validation=pass
+  playground:
+    next: canonical_validation
+    requires:
+    - motion_validation=pass
+    - domain_neutrality_validation=pass
+    - common_app_coverage_validation=pass
+    - accessibility_validation=pass
+    - responsive_validation=pass
+    - icon_system_validation=pass
+    - theme_validation=pass
+    - typography_validation=pass
+    - content_design_validation=pass
+    - data_visualization_validation=pass
+  canonical_validation:
+    next: gate_b
+    requires:
+    - visual_drift_check=pass
+    - behavior_drift_check=pass
+    - design_quality_validation=pass
+    - completeness_matrix_validation=pass
+  gate_b:
+    next: production_verification
+    blocking: true
+  production_verification:
+    next: release_packaging
+    blocking: true
+    requires:
+    - compile_validation=pass
+    - component_coverage_validation=pass
+    - visual_snapshot_validation=pass
+    - canonical_snapshot_validation=pass
+    - golden_image_lifecycle_validation=pass
+    - icon_implementation_validation=pass
+    - motion_runtime_validation=pass
+    - procedural_determinism_validation=pass
+    - accessibility_runtime_validation=pass
+    - keyboard_navigation_validation=pass
+    - localization_validation=pass
+    - responsive_runtime_validation=pass
+    - extreme_data_validation=pass
+    - async_state_validation=pass
+    - privacy_redaction_validation=pass
+    - performance_validation=pass
+    - device_validation=pass
+    - regression_validation=pass
+    - package_audit_validation=pass
+    - evidence_schema_validation=pass
+    - screen_reader_order_validation=pass
+    - high_contrast_validation=pass
+    - text_reflow_validation=pass
+    - touch_target_validation=pass
+    - offline_degraded_validation=pass
+    - animation_interrupt_validation=pass
+    - memory_budget_validation=pass
+    - render_budget_validation=pass
+    - traceability_validation=pass
+  release_packaging:
+    next: governance
+    requires:
+    - production_verification.completed=true
+    - production_verification.status=pass
+  governance:
+    terminal: true
+    requires:
+    - governance_validation=pass
+    - registry_updated=true
+production_requirements:
+- compile_validation
+- component_coverage_validation
+- visual_snapshot_validation
+- canonical_snapshot_validation
+- golden_image_lifecycle_validation
+- icon_implementation_validation
+- motion_runtime_validation
+- procedural_determinism_validation
+- accessibility_runtime_validation
+- keyboard_navigation_validation
+- localization_validation
+- responsive_runtime_validation
+- extreme_data_validation
+- async_state_validation
+- privacy_redaction_validation
+- performance_validation
+- device_validation
+- regression_validation
+- package_audit_validation
+- evidence_schema_validation
+- screen_reader_order_validation
+- high_contrast_validation
+- text_reflow_validation
+- touch_target_validation
+- offline_degraded_validation
+- animation_interrupt_validation
+- memory_budget_validation
+- render_budget_validation
+- traceability_validation
+protected_validations:
+- scope_contract_validation
+- visual_drift_check
+- behavior_drift_check
+- token_governance_validation
+- domain_neutrality_validation
+- common_app_coverage_validation
+- component_api_quality_validation
+- cross_platform_parity_validation
+- design_to_code_traceability_validation
+- motion_validation
+- accessibility_validation
+- responsive_validation
+- icon_system_validation
+- theme_validation
+- typography_validation
+- content_design_validation
+- data_visualization_validation
+- design_quality_validation
+- completeness_matrix_validation
+- compile_validation
+- component_coverage_validation
+- visual_snapshot_validation
+- canonical_snapshot_validation
+- golden_image_lifecycle_validation
+- icon_implementation_validation
+- motion_runtime_validation
+- procedural_determinism_validation
+- accessibility_runtime_validation
+- keyboard_navigation_validation
+- localization_validation
+- responsive_runtime_validation
+- extreme_data_validation
+- async_state_validation
+- privacy_redaction_validation
+- performance_validation
+- device_validation
+- regression_validation
+- package_audit_validation
+- evidence_schema_validation
+- screen_reader_order_validation
+- high_contrast_validation
+- text_reflow_validation
+- touch_target_validation
+- offline_degraded_validation
+- animation_interrupt_validation
+- memory_budget_validation
+- render_budget_validation
+- traceability_validation
+security:
+  arbitrary_subprocess_adapters: prohibited
+  artifact_path_escape: prohibited
+  evidence_path_escape: prohibited
+  immutable_evidence_checksums: required
+  gate_approvals_are_gate_specific: true
+  production_validations_are_evidence_derived: true
+invalidation:
+  dependency_graph: artifact-graph.json
+  downstream_stale_propagation: required
+  release_blocked_on_stale_artifacts: true
+completion_states:
+  design_language: gate_a_to_language
+  design_system: gate_b_approved
+  production_verified: production_verification_pass
+  governed_release: governance_terminal

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Production Verification",
+  "type": "object",
+  "required": [
+    "generator_version",
+    "execution_profile",
+    "status",
+    "required_gate_ids",
+    "results",
+    "evidence_file",
+    "generated_at"
+  ],
+  "properties": {
+    "generator_version": {
+      "const": "3.2.0"
+    },
+    "execution_profile": {
+      "enum": [
+        "reference",
+        "production"
+      ]
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail",
+        "unverified"
+      ]
+    },
+    "required_gate_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "results": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "pass",
+          "fail",
+          "unverified",
+          "not_applicable"
+        ]
+      }
+    },
+    "evidence_file": {
+      "const": "evidence.json"
+    },
+    "generated_at": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution_profile": {
+            "const": "reference"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "unverified"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

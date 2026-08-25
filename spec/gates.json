@@ -1,0 +1,22 @@
+{
+  "version": "3.2.0",
+  "gates": {
+    "gate_a": {
+      "requires": [
+        "current_state=gate_a",
+        "approval.status=approved",
+        "approval.direction"
+      ],
+      "approval_scope": "gate_a_only"
+    },
+    "gate_b": {
+      "requires": [
+        "current_state=gate_b",
+        "approval.status=approved",
+        "completeness_matrix_validation=pass",
+        "no_stale_artifacts"
+      ],
+      "approval_scope": "gate_b_only"
+    }
+  }
+}

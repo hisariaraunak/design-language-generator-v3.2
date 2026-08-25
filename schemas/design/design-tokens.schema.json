@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Tokens",
+  "type": "object",
+  "required": [
+    "primitive",
+    "semantic",
+    "component"
+  ],
+  "properties": {
+    "primitive": {
+      "type": "object"
+    },
+    "semantic": {
+      "type": "object"
+    },
+    "component": {
+      "type": "object"
+    }
+  },
+  "examples": [
+    {
+      "primitive": {
+        "color": {
+          "blue": {
+            "500": "#4F6BFF"
+          }
+        }
+      },
+      "semantic": {
+        "action": {
+          "primary": "{primitive.color.blue.500}"
+        }
+      },
+      "component": {
+        "button": {
+          "primary": {
+            "background": "{semantic.action.primary}"
+          }
+        }
+      }
+    }
+  ]
+}

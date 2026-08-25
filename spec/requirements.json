@@ -1,0 +1,92 @@
+{
+  "version": "3.2.0",
+  "principles": [
+    "spec-first",
+    "evidence-derived validation",
+    "artifact provenance",
+    "downstream invalidation",
+    "gate-specific approval",
+    "release reproducibility",
+    "domain neutrality",
+    "accessibility by construction"
+  ],
+  "inputs": [
+    "screenshots",
+    "figma_or_design_files",
+    "production_app",
+    "code_repository",
+    "existing_design_system",
+    "brand_guidelines",
+    "greenfield_brief"
+  ],
+  "engines": {
+    "intake": [
+      "scope normalization",
+      "source inventory",
+      "applicability matrix"
+    ],
+    "design_generation": [
+      "visual DNA",
+      "directions",
+      "baselines",
+      "language",
+      "tokens",
+      "components"
+    ],
+    "rendering_codegen": [
+      "playgrounds",
+      "canonical screens",
+      "web",
+      "swiftui",
+      "compose"
+    ],
+    "verification": [
+      "snapshots",
+      "accessibility",
+      "responsive",
+      "localization",
+      "motion",
+      "determinism",
+      "performance",
+      "device",
+      "privacy",
+      "regression"
+    ],
+    "release": [
+      "checksums",
+      "manifest",
+      "archive",
+      "release blocking"
+    ],
+    "governance_migration": [
+      "semver",
+      "deprecation",
+      "compatibility",
+      "registry",
+      "rollback",
+      "migration policy",
+      "adoption drift"
+    ]
+  },
+  "evidence": {
+    "required_fields": [
+      "requirement",
+      "test",
+      "fixture",
+      "environment",
+      "expected",
+      "actual",
+      "artifact_checksums",
+      "status"
+    ],
+    "manual_pass_for_protected_validations": false
+  },
+  "security": [
+    "no arbitrary command adapters",
+    "root-contained paths",
+    "schema-validated state",
+    "auditable history",
+    "checksum-bound evidence"
+  ],
+  "acceptance": "A clean reference project must run end-to-end with human intervention only at Gate A and Gate B."
+}

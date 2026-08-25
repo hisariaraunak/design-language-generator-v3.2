@@ -1,0 +1,18 @@
+{
+  "id": "reference-renderer",
+  "capability": "render",
+  "entrypoint": "adapters/reference_renderer.py",
+  "inputs": [
+    "06-tokens/tokens.json",
+    "07-components/components.json"
+  ],
+  "outputs": [
+    "09-playground/components/index.html"
+  ],
+  "sandbox": {
+    "network": "none",
+    "timeout_seconds": 30,
+    "max_memory_mb": 256
+  },
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

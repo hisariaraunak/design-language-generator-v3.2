@@ -1,0 +1,40 @@
+{
+  "name": "Design Language Generator",
+  "version": "3.2.0",
+  "architecture": "strict execution framework",
+  "human_intervention": [
+    "gate_a",
+    "gate_b"
+  ],
+  "engines": [
+    "intake",
+    "design_generation",
+    "rendering_codegen",
+    "verification",
+    "release",
+    "governance_migration"
+  ],
+  "shared_foundation": [
+    "artifact_dag",
+    "immutable_evidence",
+    "provenance",
+    "invalidation",
+    "deterministic_reference_fixtures"
+  ],
+  "security": {
+    "arbitrary_subprocess_adapters": false,
+    "root_path_containment": true,
+    "evidence_derived_production_validations": true,
+    "reference_evidence_cannot_produce_production_release": true
+  },
+  "completion_states": [
+    "design_language",
+    "design_system",
+    "production_verified",
+    "governed_release"
+  ],
+  "execution_profiles": [
+    "reference",
+    "production"
+  ]
+}

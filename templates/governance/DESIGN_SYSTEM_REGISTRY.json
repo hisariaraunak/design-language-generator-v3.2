@@ -1,0 +1,14 @@
+{
+  "current_version": "0.0.0",
+  "generator_version": "3.2.0",
+  "releases": [
+    {
+      "version": "0.0.0",
+      "status": "ReleaseCandidate",
+      "manifest_sha256": "<sha256>",
+      "archive_sha256": "<sha256>",
+      "supported_platforms": [],
+      "superseded_by": null
+    }
+  ]
+}

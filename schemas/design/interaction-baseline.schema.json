@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interaction-baseline.schema.json",
+  "type": "object",
+  "required": ["status", "navigation", "focus_keyboard", "gestures", "validation", "overlays", "selection", "destructive_actions", "async_states"],
+  "properties": {
+    "status": {"enum": ["draft", "locked"]},
+    "navigation": {"type": "object"},
+    "focus_keyboard": {"type": "object"},
+    "gestures": {"type": "object"},
+    "validation": {"type": "object"},
+    "overlays": {"type": "object"},
+    "selection": {"type": "object"},
+    "destructive_actions": {"type": "object"},
+    "async_states": {"type": "object"}
+  }
+}

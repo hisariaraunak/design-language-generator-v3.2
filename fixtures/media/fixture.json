@@ -1,0 +1,29 @@
+{
+  "id": "media-reference-v1",
+  "domain": "media",
+  "archetype": "content and social media",
+  "source_mode": "brief",
+  "screens": [
+    "feed",
+    "content",
+    "library",
+    "profile"
+  ],
+  "platforms": [
+    "web",
+    "swiftui",
+    "compose"
+  ],
+  "constraints": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ar"
+    ],
+    "accessibility": "AA",
+    "motion": "reduced-motion-compatible"
+  }
+}

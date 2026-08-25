@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DLG output manifest contract",
+  "version": "3.2.0",
+  "$ref": "../schemas/release/release-manifest.schema.json",
+  "x-artifact-registry": "artifacts.json"
+}

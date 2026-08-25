@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "generator_version",
+    "design_system_version",
+    "execution_profile",
+    "state",
+    "validations",
+    "approvals",
+    "artifacts",
+    "stale_artifacts",
+    "scope",
+    "revision",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "generator_version": {
+      "const": "3.2.0"
+    },
+    "design_system_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "execution_profile": {
+      "enum": [
+        "reference",
+        "production"
+      ]
+    },
+    "state": {
+      "enum": [
+        "intake_scope",
+        "visual_dna",
+        "interview",
+        "directions",
+        "gate_a",
+        "baselines",
+        "language",
+        "tokens",
+        "components",
+        "implementation",
+        "playground",
+        "canonical_validation",
+        "gate_b",
+        "production_verification",
+        "release_packaging",
+        "governance"
+      ]
+    },
+    "validations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "status",
+          "derived",
+          "evaluated_at"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "pass",
+              "fail",
+              "true",
+              "false",
+              "locked",
+              "unlocked",
+              "not_applicable",
+              "unverified"
+            ]
+          },
+          "derived": {
+            "type": "boolean"
+          },
+          "evaluated_at": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source_artifact": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "approvals": {
+      "type": "object",
+      "properties": {
+        "gate_a": {
+          "$ref": "#/$defs/approvalA"
+        },
+        "gate_b": {
+          "$ref": "#/$defs/approvalB"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "path",
+          "status",
+          "generated_at",
+          "phase",
+          "producer"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "status": {
+            "enum": [
+              "current",
+              "stale"
+            ]
+          },
+          "generated_at": {
+            "type": "string"
+          },
+          "phase": {
+            "type": "string"
+          },
+          "producer": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "stale_artifacts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "scope": {
+      "type": "object"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "approvalA": {
+      "type": "object",
+      "required": [
+        "status",
+        "gate",
+        "approver",
+        "at",
+        "state_revision",
+        "direction"
+      ],
+      "properties": {
+        "status": {
+          "const": "approved"
+        },
+        "gate": {
+          "const": "gate_a"
+        },
+        "approver": {
+          "type": "string",
+          "minLength": 1
+        },
+        "at": {
+          "type": "string"
+        },
+        "state_revision": {
+          "type": "integer"
+        },
+        "direction": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "approvalB": {
+      "type": "object",
+      "required": [
+        "status",
+        "gate",
+        "approver",
+        "at",
+        "state_revision"
+      ],
+      "properties": {
+        "status": {
+          "const": "approved"
+        },
+        "gate": {
+          "const": "gate_b"
+        },
+        "approver": {
+          "type": "string",
+          "minLength": 1
+        },
+        "at": {
+          "type": "string"
+        },
+        "state_revision": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

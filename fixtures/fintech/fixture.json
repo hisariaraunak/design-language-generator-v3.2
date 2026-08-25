@@ -1,0 +1,29 @@
+{
+  "id": "fintech-reference-v1",
+  "domain": "fintech",
+  "archetype": "data-dense financial",
+  "source_mode": "brief",
+  "screens": [
+    "portfolio",
+    "transaction",
+    "analytics",
+    "account"
+  ],
+  "platforms": [
+    "web",
+    "swiftui",
+    "compose"
+  ],
+  "constraints": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ar"
+    ],
+    "accessibility": "AA",
+    "motion": "reduced-motion-compatible"
+  }
+}

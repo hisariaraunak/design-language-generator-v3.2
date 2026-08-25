@@ -1,0 +1,29 @@
+{
+  "id": "productivity-reference-v1",
+  "domain": "productivity",
+  "archetype": "enterprise productivity",
+  "source_mode": "brief",
+  "screens": [
+    "workspace",
+    "task",
+    "search",
+    "settings"
+  ],
+  "platforms": [
+    "web",
+    "swiftui",
+    "compose"
+  ],
+  "constraints": {
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "locales": [
+      "en",
+      "ar"
+    ],
+    "accessibility": "AA",
+    "motion": "reduced-motion-compatible"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Domain Neutrality Validation",
+  "type": "object",
+  "required": [
+    "status",
+    "source_domain_leakage",
+    "cross_domain_scenarios"
+  ],
+  "properties": {
+    "status": {
+      "const": "pass"
+    },
+    "source_domain_leakage": {
+      "type": "boolean",
+      "const": false
+    },
+    "cross_domain_scenarios": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
