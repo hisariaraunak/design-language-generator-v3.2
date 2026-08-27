@@ -59,7 +59,7 @@ struct TodayView: View {
                 LinearGradient(colors: [.white.opacity(0.52), .white.opacity(0.08), .clear], startPoint: .leading, endPoint: .trailing)
                 HJCalorieRing(remaining: store.calorieBalance, goal: store.state.goals.calories, consumed: store.consumedCalories)
                     .frame(width: 138, height: 138)
-                    .padding(.leading, 14)
+                    .padding(.leading, 22)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 176)

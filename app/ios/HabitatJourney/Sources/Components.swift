@@ -198,15 +198,43 @@ private struct HJHeroEyelids: View {
 
 struct HJCalorieRing: View {
     let remaining: Int; let goal: Int; let consumed: Int
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var dayPart = HJHeroDayPart.current()
     @ScaledMetric(relativeTo: .largeTitle) private var valueSize = 34.0
     var progress: Double { min(1, Double(consumed) / Double(goal)) }
     var isOver: Bool { remaining < 0 }
+    var progressColor: Color {
+        if isOver { return HJColor.coral }
+        return dayPart == .night ? Color(hex: 0x55E6D5) : HJColor.teal
+    }
+    var trackColor: Color {
+        if isOver { return HJColor.coral.opacity(0.15) }
+        return (dayPart == .night ? Color(hex: 0xBCEDE8) : HJColor.teal).opacity(0.15)
+    }
     var body: some View {
         ZStack {
-            Circle().stroke((isOver ? HJColor.coral : HJColor.teal).opacity(0.15), lineWidth: 11)
-            Circle().trim(from: 0, to: progress).stroke(isOver ? HJColor.coral : HJColor.teal, style: StrokeStyle(lineWidth: 11, lineCap: .round)).rotationEffect(.degrees(-90)).animation(.spring(response: 0.7, dampingFraction: 0.82), value: progress)
+            Circle().stroke(trackColor, lineWidth: 11)
+            Circle().trim(from: 0, to: progress).stroke(progressColor, style: StrokeStyle(lineWidth: 11, lineCap: .round)).rotationEffect(.degrees(-90)).animation(.spring(response: 0.7, dampingFraction: 0.82), value: progress)
             VStack(spacing: 1) { Image(systemName: "flame.fill").foregroundStyle(HJColor.coral); Text(abs(remaining).formatted()).font(.system(size: valueSize, weight: .bold, design: .rounded)).contentTransition(.numericText()); Text(isOver ? "kcal over" : "kcal left").font(.subheadline.weight(.semibold)) }
-        }.accessibilityElement(children: .ignore).accessibilityLabel(isOver ? "\(abs(remaining)) calories over your \(goal) calorie goal" : "\(remaining) calories left out of \(goal)")
+        }
+        .animation(reduceMotion ? nil : .easeInOut(duration: 1.4), value: dayPart)
+        .onChange(of: scenePhase) { _, phase in if phase == .active { updateDayPart() } }
+        .task {
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(60))
+                updateDayPart()
+            }
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(isOver ? "\(abs(remaining)) calories over your \(goal) calorie goal" : "\(remaining) calories left out of \(goal)")
+    }
+
+    private func updateDayPart() {
+        let next = HJHeroDayPart.current()
+        guard next != dayPart else { return }
+        if reduceMotion { dayPart = next }
+        else { withAnimation(.easeInOut(duration: 1.4)) { dayPart = next } }
     }
 }
 
