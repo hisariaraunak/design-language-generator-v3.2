@@ -47,6 +47,7 @@ final class AppStore {
 
     func entries(for meal: MealKind) -> [FoodEntry] { todayEntries.filter { $0.meal == meal } }
     func calories(for meal: MealKind) -> Int { entries(for: meal).reduce(0) { $0 + Int(Double($1.food.calories) * $1.servings) } }
+    func macros(for meal: MealKind) -> MacroNutrients { entries(for: meal).reduce(.zero) { $0 + $1.food.macros.scaled(by: $1.servings) } }
     func entries(on date: Date) -> [FoodEntry] { state.entries.filter { Calendar.current.isDate($0.loggedAt, inSameDayAs: date) } }
     var isSelectedDateToday: Bool { Calendar.current.isDateInToday(selectedDate) }
     var isSelectedDateFuture: Bool { selectedDate > Calendar.current.startOfDay(for: Date()) }
@@ -123,8 +124,38 @@ final class AppStore {
         persist()
     }
 
+    @discardableResult
+    func updateEntry(id: UUID, servings: Double, meal: MealKind) -> Bool {
+        guard servings >= 0.5, servings <= 20 else { lastError = "Choose a serving between 0.5 and 20."; return false }
+        guard !isSelectedDateFuture else { lastError = "Meals cannot be edited in the future."; return false }
+        guard let index = state.entries.firstIndex(where: { $0.id == id }) else { lastError = "That food entry is no longer available."; return false }
+        state.entries[index].servings = servings
+        state.entries[index].meal = meal
+        persist()
+        return true
+    }
+
+    @discardableResult
+    func deleteEntry(id: UUID) -> DeletedFoodEntry? {
+        guard let index = state.entries.firstIndex(where: { $0.id == id }) else { return nil }
+        let deleted = DeletedFoodEntry(entry: state.entries.remove(at: index), originalIndex: index)
+        persist()
+        return deleted
+    }
+
+    func restore(_ deleted: DeletedFoodEntry) {
+        guard !state.entries.contains(where: { $0.id == deleted.entry.id }) else { return }
+        state.entries.insert(deleted.entry, at: min(deleted.originalIndex, state.entries.endIndex))
+        persist()
+    }
+
     func resetDemo() { state = SeedData.state; persist() }
     private func persist() { do { try persistence.save(state) } catch { lastError = "Your changes could not be saved." } }
+}
+
+struct DeletedFoodEntry: Equatable {
+    let entry: FoodEntry
+    let originalIndex: Int
 }
 
 extension MacroNutrients { func scaled(by factor: Double) -> Self { .init(protein: protein * factor, carbs: carbs * factor, fat: fat * factor, fiber: fiber * factor) } }

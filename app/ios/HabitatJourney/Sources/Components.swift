@@ -337,6 +337,87 @@ struct HJFoodRow: View {
     }
 }
 
+struct HJMealEntryRow: View {
+    let entry: FoodEntry
+    private var calories: Int { Int(Double(entry.food.calories) * entry.servings) }
+    private var servingText: String { entry.servings.formatted(.number.precision(.fractionLength(entry.servings.rounded() == entry.servings ? 0 : 1))) }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Text(entry.food.emoji)
+                .font(.system(size: 34))
+                .frame(width: 50, height: 50)
+                .background(HJColor.mist.opacity(0.76))
+                .clipShape(Circle())
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(entry.food.name).font(.body.weight(.semibold)).foregroundStyle(HJColor.navy)
+                Text("\(servingText) × \(entry.food.detail)").font(.caption).foregroundStyle(HJColor.slate)
+            }
+            Spacer(minLength: 8)
+            VStack(alignment: .trailing, spacing: 4) {
+                Text("\(calories) kcal").font(.subheadline.bold()).foregroundStyle(HJColor.navy)
+                Text("Edit").font(.caption2.bold()).foregroundStyle(HJColor.teal)
+            }
+        }
+        .frame(minHeight: 68)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(entry.food.name), \(servingText) servings, \(calories) calories")
+        .accessibilityHint("Opens food editing")
+        .accessibilityIdentifier("meal.entry.\(entry.food.name)")
+    }
+}
+
+struct HJMealSummaryCard: View {
+    let meal: MealKind
+    let calories: Int
+    let macros: MacroNutrients
+    let foodCount: Int
+    var title: String? = nil
+
+    var body: some View {
+        VStack(spacing: 14) {
+            HStack(spacing: 12) {
+                HJBundleImage(name: meal.iconAsset).scaledToFit().frame(width: 54, height: 54).accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title ?? "\(meal.displayName) total").font(.headline).foregroundStyle(HJColor.navy)
+                    Text(foodCount == 1 ? "1 logged food" : "\(foodCount) logged foods").font(.caption).foregroundStyle(HJColor.slate)
+                }
+                Spacer()
+                VStack(alignment: .trailing, spacing: 0) {
+                    Text(calories.formatted()).font(.system(size: 30, weight: .bold, design: .rounded)).foregroundStyle(HJColor.tealPressed).contentTransition(.numericText())
+                    Text("kcal").font(.caption.weight(.semibold)).foregroundStyle(HJColor.slate)
+                }
+            }
+            Divider()
+            HStack(spacing: 4) {
+                HJMealMacroValue(label: "Protein", value: macros.protein, color: HJColor.green)
+                HJMealMacroValue(label: "Carbs", value: macros.carbs, color: HJColor.yellow)
+                HJMealMacroValue(label: "Fat", value: macros.fat, color: HJColor.coral)
+                HJMealMacroValue(label: "Fiber", value: macros.fiber, color: HJColor.teal)
+            }
+        }
+        .hjCard()
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(title ?? "\(meal.displayName) total"), \(calories) calories, \(Int(macros.protein)) grams protein, \(Int(macros.carbs)) grams carbohydrates, \(Int(macros.fat)) grams fat, \(Int(macros.fiber)) grams fiber")
+        .accessibilityIdentifier("meal.summary")
+    }
+}
+
+private struct HJMealMacroValue: View {
+    let label: String
+    let value: Double
+    let color: Color
+    var body: some View {
+        VStack(spacing: 3) {
+            HStack(spacing: 4) { Circle().fill(color).frame(width: 7, height: 7); Text(label).font(.caption2).foregroundStyle(HJColor.slate) }
+            Text("\(Int(value)) g").font(.caption.weight(.bold)).foregroundStyle(HJColor.navy).contentTransition(.numericText())
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
 struct HJServingStepper: View {
     @Binding var servings: Double
     var body: some View {

@@ -101,3 +101,91 @@ final class MealLoggingUITests: XCTestCase {
         return app
     }
 }
+
+@MainActor
+final class MealManagementUITests: XCTestCase {
+    override func setUp() {
+        continueAfterFailure = false
+    }
+
+    func testEditingServingAndMovingFoodUpdatesBothMeals() {
+        let app = launch("--reset-demo", "--meal-preview", "Breakfast")
+        let summary = app.descendants(matching: .any)["meal.summary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 4))
+        XCTAssertTrue(summary.label.contains("360 calories"))
+
+        let entry = app.staticTexts["Berry oatmeal"]
+        XCTAssertTrue(entry.waitForExistence(timeout: 2))
+        entry.tap()
+
+        let increment = app.buttons["serving.plus"]
+        XCTAssertTrue(increment.waitForExistence(timeout: 2))
+        increment.tap()
+        app.buttons["meal.selector.lunch"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["entry.moveNotice"].waitForExistence(timeout: 2))
+
+        let save = app.buttons["entry.saveChanges"]
+        XCTAssertTrue(save.isEnabled)
+        save.tap()
+        XCTAssertTrue(app.navigationBars["Breakfast"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["meal.empty"].waitForExistence(timeout: 2))
+
+        app.navigationBars["Breakfast"].buttons.firstMatch.tap()
+        let lunch = app.descendants(matching: .any)["today.meal.lunch"]
+        XCTAssertTrue(lunch.waitForExistence(timeout: 3))
+        lunch.tap()
+        XCTAssertTrue(app.descendants(matching: .any)["meal.summary"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["meal.summary"].label.contains("1,060 calories"))
+        XCTAssertTrue(app.staticTexts["Berry oatmeal"].exists)
+    }
+
+    func testSwipeDeleteShowsEmptyStateAndUndoRestoresFood() {
+        let app = launch("--reset-demo", "--meal-preview", "Snacks")
+        let entry = app.staticTexts["Apple & almonds"]
+        XCTAssertTrue(entry.waitForExistence(timeout: 4))
+        entry.swipeLeft()
+        let delete = app.buttons["Delete"]
+        XCTAssertTrue(delete.waitForExistence(timeout: 2))
+        delete.tap()
+
+        XCTAssertTrue(app.descendants(matching: .any)["meal.deleteConfirmation"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.descendants(matching: .any)["meal.empty"].waitForExistence(timeout: 2))
+        app.buttons["meal.undoDelete"].tap()
+        XCTAssertTrue(entry.waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["meal.summary"].label.contains("150 calories"))
+    }
+
+    func testLogAnotherFoodPreservesMealAndRefreshesMealReview() {
+        let app = launch("--reset-demo", "--meal-preview", "Dinner")
+        let logAnother = app.buttons["meal.logAnother"]
+        XCTAssertTrue(logAnother.waitForExistence(timeout: 4))
+        logAnother.tap()
+
+        let dinnerSelector = app.buttons["meal.selector.dinner"]
+        XCTAssertTrue(dinnerSelector.waitForExistence(timeout: 3))
+        XCTAssertEqual(dinnerSelector.value as? String, "Selected")
+        app.descendants(matching: .any)["food.row.Oatmeal"].tap()
+        let add = app.buttons["food.addButton"]
+        XCTAssertTrue(add.waitForExistence(timeout: 3))
+        add.tap()
+
+        XCTAssertTrue(app.navigationBars["Dinner"].waitForExistence(timeout: 4))
+        let summary = app.descendants(matching: .any)["meal.summary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 4))
+        XCTAssertTrue(summary.label.contains("150 calories"))
+    }
+
+    func testEmptyMealStateIsSupportiveAndActionable() {
+        let app = launch("--reset-demo", "--today-state", "empty", "--meal-preview", "Dinner")
+        XCTAssertTrue(app.descendants(matching: .any)["meal.empty"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.buttons["meal.logAnother"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["meal.summary"].label.contains("0 calories"))
+    }
+
+    private func launch(_ arguments: String...) -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments = arguments
+        app.launch()
+        return app
+    }
+}

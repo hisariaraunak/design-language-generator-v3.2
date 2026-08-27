@@ -12,15 +12,27 @@ struct RootView: View {
         let arguments = ProcessInfo.processInfo.arguments
         let requested = arguments.firstIndex(of: "--screen").flatMap { arguments.indices.contains($0 + 1) ? arguments[$0 + 1] : nil }
         let foodPreview = arguments.firstIndex(of: "--food-preview").flatMap { arguments.indices.contains($0 + 1) ? arguments[$0 + 1] : nil }
+        let mealPreview = arguments.firstIndex(of: "--meal-preview").flatMap { arguments.indices.contains($0 + 1) ? arguments[$0 + 1] : nil }
         let previewFood = SeedData.foods.first { $0.name.caseInsensitiveCompare(foodPreview ?? "") == .orderedSame }
+        let previewMeal = MealKind.allCases.first { $0.rawValue.caseInsensitiveCompare(mealPreview ?? "") == .orderedSame || $0.displayName.caseInsensitiveCompare(mealPreview ?? "") == .orderedSame }
+        var initialTodayPath = NavigationPath()
+        if let previewMeal { initialTodayPath.append(previewMeal) }
         _selection = State(initialValue: ["log": .log, "progress": .progress, "habitat": .habitat][requested ?? ""] ?? .today)
+        _path = State(initialValue: initialTodayPath)
         _logPath = State(initialValue: previewFood.map { [$0] } ?? [])
     }
 
     var body: some View {
         @Bindable var store = store
         TabView(selection: $selection) {
-            NavigationStack(path: $path) { TodayView(selection: $selection).navigationDestination(for: Food.self) { FoodDetailView(food: $0, selection: $selection) }.navigationDestination(for: MealKind.self) { MealDetailView(meal: $0) } }.tag(AppTab.today).tabItem { Label("Today", systemImage: "house.fill") }
+            NavigationStack(path: $path) {
+                TodayView(selection: $selection)
+                    .navigationDestination(for: Food.self) { FoodDetailView(food: $0, selection: $selection) }
+                    .navigationDestination(for: MealKind.self) { MealDetailView(meal: $0, selection: $selection) }
+                    .navigationDestination(for: FoodEntry.self) { FoodEntryEditView(entry: $0) }
+            }
+            .tag(AppTab.today)
+            .tabItem { Label("Today", systemImage: "house.fill") }
             NavigationStack(path: $logPath) { FoodLogView(selection: $selection) }.tag(AppTab.log).tabItem { Label("Log", systemImage: "plus.circle.fill") }
             NavigationStack { ProgressScreen() }.tag(AppTab.progress).tabItem { Label("Progress", systemImage: "chart.bar.fill") }
             NavigationStack { HabitatScreen(selection: $selection) }.tag(AppTab.habitat).tabItem { Label("Habitat", systemImage: "leaf.fill") }
@@ -121,7 +133,219 @@ struct HJMealButtonStyle: ButtonStyle { func makeBody(configuration: Configurati
 struct MealDetailView: View {
     @Environment(AppStore.self) private var store
     let meal: MealKind
-    var body: some View { List { if store.entries(for: meal).isEmpty { ContentUnavailableView("No foods logged", systemImage: "fork.knife", description: Text("Foods added to \(meal.rawValue.lowercased()) will appear here.")) } else { ForEach(store.entries(for: meal)) { entry in HStack(spacing: 12) { Text(entry.food.emoji).font(.title); VStack(alignment: .leading) { Text(entry.food.name).fontWeight(.semibold); Text("\(entry.servings.formatted()) × \(entry.food.detail)").font(.caption).foregroundStyle(HJColor.slate) }; Spacer(); Text("\(Int(Double(entry.food.calories) * entry.servings)) kcal").font(.subheadline.bold()) } }.onDelete { store.deleteEntries(at: $0, meal: meal) } } } .navigationTitle(meal == .snack ? "Snacks" : meal.rawValue).navigationBarTitleDisplayMode(.inline).toolbar { EditButton() } }
+    @Binding var selection: AppTab
+    @State private var deletedEntry: DeletedFoodEntry?
+    @State private var undoDismissTask: Task<Void, Never>?
+
+    private var entries: [FoodEntry] { store.entries(for: meal) }
+
+    var body: some View {
+        List {
+            Section {
+                HJMealSummaryCard(meal: meal, calories: store.calories(for: meal), macros: store.macros(for: meal), foodCount: entries.count)
+                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 8, trailing: 16))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+            }
+
+            Section {
+                if entries.isEmpty {
+                    VStack(spacing: 10) {
+                        HJBundleImage(name: meal.iconAsset).scaledToFit().frame(width: 72, height: 72)
+                        Text("No foods in \(meal.displayName.lowercased()) yet").font(.headline).foregroundStyle(HJColor.navy)
+                        Text("Add something when you’re ready. Ollie will keep this spot open for you.")
+                            .font(.subheadline)
+                            .foregroundStyle(HJColor.slate)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 26)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityIdentifier("meal.empty")
+                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                } else {
+                    ForEach(entries) { entry in
+                        NavigationLink(value: entry) { HJMealEntryRow(entry: entry) }
+                            .accessibilityIdentifier("meal.entry.\(entry.food.name)")
+                            .listRowInsets(EdgeInsets(top: 3, leading: 16, bottom: 3, trailing: 16))
+                            .listRowBackground(HJColor.card)
+                            .listRowSeparatorTint(HJColor.line)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button(role: .destructive) { delete(entry) } label: { Label("Delete", systemImage: "trash") }
+                                    .accessibilityIdentifier("meal.delete.\(entry.food.name)")
+                            }
+                    }
+                }
+            } header: {
+                if !entries.isEmpty {
+                    HStack {
+                        Text("Logged foods")
+                        Spacer()
+                        Text("Swipe to delete").font(.caption2).textCase(nil)
+                    }
+                    .foregroundStyle(HJColor.slate)
+                }
+            }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background(HJColor.canvas)
+        .navigationTitle(meal.displayName)
+        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                Button {
+                    store.selectedMeal = meal
+                    selection = .log
+                } label: {
+                    Label("Log another food", systemImage: "plus")
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, minHeight: 52)
+                }
+                .buttonStyle(.plain)
+                .background(HJColor.teal)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                .accessibilityIdentifier("meal.logAnother")
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 10)
+            .padding(.bottom, 6)
+            .background(.ultraThinMaterial)
+        }
+        .overlay(alignment: .bottom) {
+            if let deletedEntry {
+                HStack(spacing: 10) {
+                    Image(systemName: "trash.fill").foregroundStyle(HJColor.coral)
+                    Text("\(deletedEntry.entry.food.name) removed").font(.subheadline.weight(.semibold))
+                    Spacer()
+                    Button("Undo") { undoDelete() }.font(.subheadline.bold()).foregroundStyle(HJColor.teal)
+                        .accessibilityIdentifier("meal.undoDelete")
+                }
+                .padding(.horizontal, 14)
+                .frame(minHeight: 50)
+                .background(HJColor.navy)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .shadow(color: HJColor.navy.opacity(0.18), radius: 12, y: 5)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 82)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("meal.deleteConfirmation")
+            }
+        }
+        .animation(.snappy(duration: 0.3), value: deletedEntry)
+        .onDisappear {
+            undoDismissTask?.cancel()
+            deletedEntry = nil
+        }
+    }
+
+    private func delete(_ entry: FoodEntry) {
+        undoDismissTask?.cancel()
+        guard let deleted = store.deleteEntry(id: entry.id) else { return }
+        deletedEntry = deleted
+        undoDismissTask = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(5))
+            guard !Task.isCancelled else { return }
+            deletedEntry = nil
+        }
+    }
+
+    private func undoDelete() {
+        undoDismissTask?.cancel()
+        guard let deletedEntry else { return }
+        store.restore(deletedEntry)
+        self.deletedEntry = nil
+    }
+}
+
+struct FoodEntryEditView: View {
+    @Environment(AppStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    let entry: FoodEntry
+    @State private var servings: Double
+    @State private var meal: MealKind
+    @State private var didSave = false
+
+    private var calories: Int { Int(Double(entry.food.calories) * servings) }
+    private var macros: MacroNutrients { entry.food.macros.scaled(by: servings) }
+    private var hasChanges: Bool { servings != entry.servings || meal != entry.meal }
+
+    init(entry: FoodEntry) {
+        self.entry = entry
+        _servings = State(initialValue: entry.servings)
+        _meal = State(initialValue: entry.meal)
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 14) {
+                HStack(spacing: 15) {
+                    Text(entry.food.emoji).font(.system(size: 52)).frame(width: 82, height: 82).background(HJColor.mist).clipShape(Circle())
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(entry.food.name).font(.title2.bold()).foregroundStyle(HJColor.navy)
+                        Text(entry.food.detail).font(.subheadline).foregroundStyle(HJColor.slate)
+                        Text("Logged in \(entry.meal.displayName.lowercased())").font(.caption.weight(.semibold)).foregroundStyle(HJColor.green)
+                    }
+                    Spacer()
+                }
+
+                VStack(spacing: 14) {
+                    HJServingStepper(servings: $servings)
+                    Divider()
+                    HStack { Text("Updated calories").foregroundStyle(HJColor.slate); Spacer(); Text("\(calories) kcal").fontWeight(.bold).foregroundStyle(HJColor.navy).contentTransition(.numericText()) }
+                }
+                .hjCard()
+
+                HJMealSummaryCard(meal: meal, calories: calories, macros: macros, foodCount: 1, title: "Updated nutrition")
+
+                VStack(alignment: .leading, spacing: 11) {
+                    Text("Move to meal").font(.headline).foregroundStyle(HJColor.navy)
+                    HJMealSelector(selection: $meal, compact: true)
+                    if meal != entry.meal {
+                        Label("This food will move to \(meal.displayName.lowercased()).", systemImage: "arrow.right.circle.fill")
+                            .font(.caption.weight(.semibold)).foregroundStyle(HJColor.tealPressed)
+                            .accessibilityIdentifier("entry.moveNotice")
+                    }
+                }
+                .hjCard()
+            }
+            .padding(16)
+            .padding(.bottom, 90)
+        }
+        .background(HJColor.canvas)
+        .navigationTitle("Edit food")
+        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                Button { save() } label: {
+                    Label(didSave ? "Saved" : "Save changes", systemImage: didSave ? "checkmark" : "square.and.arrow.down")
+                        .fontWeight(.bold).frame(maxWidth: .infinity, minHeight: 52)
+                }
+                .buttonStyle(.plain)
+                .background(hasChanges || didSave ? HJColor.teal : HJColor.line)
+                .foregroundStyle(hasChanges || didSave ? .white : HJColor.slate)
+                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                .disabled(!hasChanges || didSave)
+                .accessibilityIdentifier("entry.saveChanges")
+            }
+            .padding(.horizontal, 16).padding(.top, 10).padding(.bottom, 6).background(.ultraThinMaterial)
+        }
+        .sensoryFeedback(.success, trigger: didSave)
+    }
+
+    private func save() {
+        guard store.updateEntry(id: entry.id, servings: servings, meal: meal) else { return }
+        withAnimation(.snappy) { didSave = true }
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(550))
+            dismiss()
+        }
+    }
 }
 
 struct FoodLogView: View {
