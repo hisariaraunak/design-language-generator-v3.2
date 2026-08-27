@@ -85,5 +85,5 @@ struct AccountScreen: View {
 struct XPReceipt: View {
     let title: String
     let amount: Int
-    var body: some View { HStack { Image(systemName: "checkmark.circle.fill").foregroundStyle(HJColor.teal); Text(title); Spacer(); Text("+\(amount) Habitat XP").fontWeight(.bold).foregroundStyle(HJColor.teal) }.font(.subheadline).padding().background(HJColor.navy).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(radius: 12).padding(.horizontal, 20) }
+    var body: some View { HStack { Image(systemName: "checkmark.circle.fill").foregroundStyle(HJColor.teal); Text(title); Spacer(); Text("+\(amount) Habitat XP").fontWeight(.bold).foregroundStyle(HJColor.teal) }.font(.subheadline).padding().background(HJColor.navy).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(radius: 12).padding(.horizontal, 20).accessibilityElement(children: .combine).accessibilityIdentifier("meal.confirmation") }
 }

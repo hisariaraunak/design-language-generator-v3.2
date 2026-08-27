@@ -228,6 +228,7 @@ struct HJCalorieRing: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(isOver ? "\(abs(remaining)) calories over your \(goal) calorie goal" : "\(remaining) calories left out of \(goal)")
+        .accessibilityIdentifier("today.calorieRing")
     }
 
     private func updateDayPart() {
@@ -252,14 +253,147 @@ struct HJMacroCard: View {
 
 struct HJMealRow: View {
     let meal: MealKind; let calories: Int
-    var iconAsset: String { switch meal { case .breakfast: "MealBreakfast-v1"; case .lunch: "MealLunch-v1"; case .dinner: "MealDinner-v1"; case .snack: "MealSnack-v1" } }
-    var displayName: String { meal == .snack ? "Snacks" : meal.rawValue }
-    var body: some View { HStack(spacing: 10) { HJBundleImage(name: iconAsset).scaledToFit().frame(width: 34, height: 34).accessibilityHidden(true); Text(displayName).fontWeight(.semibold); Spacer(); Text("\(calories) kcal").fontWeight(.semibold).contentTransition(.numericText()); Image(systemName: "chevron.right").font(.caption).foregroundStyle(HJColor.slate) }.frame(minHeight: 46).contentShape(Rectangle()).accessibilityElement(children: .combine).accessibilityHint("Opens logged foods for \(displayName)") }
+    var body: some View { HStack(spacing: 10) { HJBundleImage(name: meal.iconAsset).scaledToFit().frame(width: 34, height: 34).accessibilityHidden(true); Text(meal.displayName).fontWeight(.semibold); Spacer(); Text("\(calories) kcal").fontWeight(.semibold).contentTransition(.numericText()); Image(systemName: "chevron.right").font(.caption).foregroundStyle(HJColor.slate) }.frame(minHeight: 46).contentShape(Rectangle()).accessibilityElement(children: .combine).accessibilityHint("Opens logged foods for \(meal.displayName)").accessibilityIdentifier("today.meal.\(meal.rawValue.lowercased())") }
+}
+
+extension MealKind {
+    var displayName: String { self == .snack ? "Snacks" : rawValue }
+    var iconAsset: String {
+        switch self {
+        case .breakfast: "MealBreakfast-v1"
+        case .lunch: "MealLunch-v1"
+        case .dinner: "MealDinner-v1"
+        case .snack: "MealSnack-v1"
+        }
+    }
+}
+
+struct HJMealSelector: View {
+    @Binding var selection: MealKind
+    var compact = false
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(MealKind.allCases) { meal in
+                Button { selection = meal } label: {
+                    VStack(spacing: compact ? 2 : 4) {
+                        HJBundleImage(name: meal.iconAsset)
+                            .scaledToFit()
+                            .frame(width: compact ? 25 : 31, height: compact ? 25 : 31)
+                            .accessibilityHidden(true)
+                        Text(meal == .snack ? "Snack" : meal.rawValue)
+                            .font(.caption.weight(.semibold))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.78)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: compact ? 54 : 66)
+                    .background(selection == meal ? HJColor.mist : HJColor.card)
+                    .foregroundStyle(selection == meal ? HJColor.tealPressed : HJColor.navy)
+                    .clipShape(RoundedRectangle(cornerRadius: 13, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 13, style: .continuous).stroke(selection == meal ? HJColor.teal : HJColor.line, lineWidth: selection == meal ? 1.5 : 1))
+                    .shadow(color: HJColor.navy.opacity(selection == meal ? 0.06 : 0.03), radius: 5, y: 2)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(meal.displayName)
+                .accessibilityValue(selection == meal ? "Selected" : "")
+                .accessibilityIdentifier("meal.selector.\(meal.rawValue.lowercased())")
+            }
+        }
+        .animation(.easeOut(duration: 0.22), value: selection)
+    }
 }
 
 struct HJFoodRow: View {
     let food: Food
-    var body: some View { HStack(spacing: 12) { Text(food.emoji).font(.system(size: 38)); VStack(alignment: .leading, spacing: 2) { Text(food.name).fontWeight(.semibold); Text("\(food.detail) · \(food.calories) kcal").font(.caption).foregroundStyle(HJColor.slate) }; Spacer(); Image(systemName: "plus").fontWeight(.bold).frame(width: 32, height: 32).background(HJColor.teal).foregroundStyle(.white).clipShape(Circle()) }.contentShape(Rectangle()).frame(minHeight: 62) }
+    var body: some View {
+        HStack(spacing: 12) {
+            Text(food.emoji)
+                .font(.system(size: 35))
+                .frame(width: 48, height: 48)
+                .background(HJColor.mist.opacity(0.72))
+                .clipShape(Circle())
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(food.name).fontWeight(.semibold).foregroundStyle(HJColor.navy)
+                Text(food.detail).font(.caption).foregroundStyle(HJColor.slate)
+            }
+            Spacer(minLength: 8)
+            VStack(alignment: .trailing, spacing: 5) {
+                Text("\(food.calories) kcal").font(.subheadline.weight(.semibold)).foregroundStyle(HJColor.navy)
+                Image(systemName: "plus")
+                    .font(.caption.bold())
+                    .frame(width: 27, height: 27)
+                    .background(HJColor.teal)
+                    .foregroundStyle(.white)
+                    .clipShape(Circle())
+            }
+        }
+        .contentShape(Rectangle())
+        .frame(minHeight: 66)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(food.name), \(food.detail), \(food.calories) calories")
+        .accessibilityHint("Opens serving details")
+        .accessibilityIdentifier("food.row.\(food.name)")
+    }
+}
+
+struct HJServingStepper: View {
+    @Binding var servings: Double
+    var body: some View {
+        VStack(spacing: 8) {
+            Text("Serving size").font(.subheadline.weight(.semibold)).foregroundStyle(HJColor.slate)
+            HStack(spacing: 22) {
+                stepButton(systemName: "minus", disabled: servings <= 0.5) { servings = max(0.5, servings - 0.5) }
+                Text(servings.formatted(.number.precision(.fractionLength(servings.rounded() == servings ? 0 : 1))))
+                    .font(.system(size: 31, weight: .bold, design: .rounded))
+                    .foregroundStyle(HJColor.navy)
+                    .frame(minWidth: 56)
+                    .contentTransition(.numericText())
+                    .accessibilityIdentifier("serving.value")
+                stepButton(systemName: "plus", disabled: servings >= 20) { servings = min(20, servings + 0.5) }
+            }
+        }
+    }
+
+    private func stepButton(systemName: String, disabled: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemName)
+                .font(.headline.bold())
+                .frame(width: 46, height: 46)
+                .background(disabled ? HJColor.line.opacity(0.55) : HJColor.mist)
+                .foregroundStyle(disabled ? HJColor.slate.opacity(0.45) : HJColor.tealPressed)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(disabled ? Color.clear : HJColor.teal.opacity(0.22)))
+        }
+        .buttonStyle(.plain)
+        .disabled(disabled)
+        .accessibilityLabel(systemName == "plus" ? "Increase servings" : "Decrease servings")
+        .accessibilityIdentifier("serving.\(systemName)")
+    }
+}
+
+struct HJFoodListSkeleton: View {
+    var body: some View {
+        VStack(spacing: 0) {
+            ForEach(0..<5, id: \.self) { index in
+                HStack(spacing: 12) {
+                    Circle().fill(HJColor.line.opacity(0.75)).frame(width: 48, height: 48)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Capsule().fill(HJColor.line).frame(width: 132, height: 12)
+                        Capsule().fill(HJColor.line.opacity(0.7)).frame(width: 82, height: 9)
+                    }
+                    Spacer()
+                    Capsule().fill(HJColor.line).frame(width: 54, height: 11)
+                }
+                .frame(minHeight: 66)
+                if index < 4 { Divider() }
+            }
+        }
+        .redacted(reason: .placeholder)
+        .hjCard()
+        .accessibilityLabel("Loading foods")
+        .accessibilityIdentifier("log.loading")
+    }
 }
 
 struct HJPrimaryButton: View { let title: String; let action: () -> Void; var body: some View { Button(title, action: action).fontWeight(.bold).frame(maxWidth: .infinity, minHeight: 52).background(HJColor.teal).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: HJRadius.medium, style: .continuous)) } }

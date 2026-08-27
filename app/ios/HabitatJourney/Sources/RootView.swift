@@ -6,24 +6,28 @@ struct RootView: View {
     @Environment(AppStore.self) private var store
     @State private var selection: AppTab
     @State private var path = NavigationPath()
+    @State private var logPath: [Food]
 
     init() {
         let arguments = ProcessInfo.processInfo.arguments
         let requested = arguments.firstIndex(of: "--screen").flatMap { arguments.indices.contains($0 + 1) ? arguments[$0 + 1] : nil }
+        let foodPreview = arguments.firstIndex(of: "--food-preview").flatMap { arguments.indices.contains($0 + 1) ? arguments[$0 + 1] : nil }
+        let previewFood = SeedData.foods.first { $0.name.caseInsensitiveCompare(foodPreview ?? "") == .orderedSame }
         _selection = State(initialValue: ["log": .log, "progress": .progress, "habitat": .habitat][requested ?? ""] ?? .today)
+        _logPath = State(initialValue: previewFood.map { [$0] } ?? [])
     }
 
     var body: some View {
         @Bindable var store = store
         TabView(selection: $selection) {
             NavigationStack(path: $path) { TodayView(selection: $selection).navigationDestination(for: Food.self) { FoodDetailView(food: $0, selection: $selection) }.navigationDestination(for: MealKind.self) { MealDetailView(meal: $0) } }.tag(AppTab.today).tabItem { Label("Today", systemImage: "house.fill") }
-            NavigationStack { FoodLogView(selection: $selection) }.tag(AppTab.log).tabItem { Label("Log", systemImage: "plus.circle.fill") }
+            NavigationStack(path: $logPath) { FoodLogView(selection: $selection) }.tag(AppTab.log).tabItem { Label("Log", systemImage: "plus.circle.fill") }
             NavigationStack { ProgressScreen() }.tag(AppTab.progress).tabItem { Label("Progress", systemImage: "chart.bar.fill") }
             NavigationStack { HabitatScreen(selection: $selection) }.tag(AppTab.habitat).tabItem { Label("Habitat", systemImage: "leaf.fill") }
         }
         .tint(HJColor.teal)
         .overlay(alignment: .bottom) { if store.showXPReceipt { XPReceipt(title: store.xpReceiptTitle, amount: store.xpReceiptAmount).padding(.bottom, 74).transition(.move(edge: .bottom).combined(with: .opacity)) } }
-        .onChange(of: store.showXPReceipt) { _, isShowing in if isShowing { Task { try? await Task.sleep(for: .seconds(1.6)); store.dismissXPReceipt() } } }
+        .onChange(of: store.showXPReceipt) { _, isShowing in if isShowing { Task { try? await Task.sleep(for: .seconds(2.4)); store.dismissXPReceipt() } } }
         .sheet(isPresented: $store.showUnlock) { UnlockScreen { store.showUnlock = false; selection = .progress } }
         .alert("Something went wrong", isPresented: Binding(get: { store.lastError != nil }, set: { if !$0 { store.lastError = nil } })) { Button("OK") {} } message: { Text(store.lastError ?? "") }
     }
@@ -83,7 +87,7 @@ struct TodayView: View {
         .sensoryFeedback(.success, trigger: heroSuccessFeedback)
         .sensoryFeedback(.impact(weight: .light, intensity: 0.45), trigger: heroSupportFeedback)
         .onAppear { playHeroReaction(.opening) }
-        .onChange(of: selection) { _, tab in if tab == .today { playHeroReaction(.opening) } }
+        .onChange(of: selection) { _, tab in if tab == .today, !store.showXPReceipt { playHeroReaction(.opening) } }
         .onChange(of: store.showXPReceipt) { _, isShowing in
             guard isShowing, store.xpReceiptAmount == 10 else { return }
             if store.calorieBalance == 0 { playHeroReaction(.goalReached) }
@@ -124,26 +128,240 @@ struct FoodLogView: View {
     @Environment(AppStore.self) private var store
     @Binding var selection: AppTab
     @State private var query = ""
-    var filtered: [Food] { query.isEmpty ? SeedData.foods : SeedData.foods.filter { $0.name.localizedCaseInsensitiveContains(query) } }
-    var body: some View { @Bindable var store = store; ScrollView { VStack(spacing: 14) {
-        Picker("Meal", selection: $store.selectedMeal) { ForEach(MealKind.allCases) { Text($0.rawValue).tag($0) } }.pickerStyle(.segmented)
-        HStack { Image(systemName: "magnifyingglass"); TextField("Search foods", text: $query).textInputAutocapitalization(.never); Button(action: {}) { Image(systemName: "barcode.viewfinder").font(.title2) } }.padding(12).background(.white).clipShape(RoundedRectangle(cornerRadius: HJRadius.medium)).overlay(RoundedRectangle(cornerRadius: HJRadius.medium).stroke(HJColor.line))
-        HStack { Text("Recent foods").font(.title3.bold()); Spacer() }
-        VStack(spacing: 0) { ForEach(filtered) { food in NavigationLink(value: food) { HJFoodRow(food: food) }.buttonStyle(.plain); if food.id != filtered.last?.id { Divider() } } }.hjCard()
-        HStack { Text("\(store.selectedMeal.rawValue) total"); Spacer(); Text("\(store.calories(for: store.selectedMeal)) kcal").fontWeight(.bold) }.padding()
-    }.padding(16) }.background(HJColor.canvas).navigationTitle("Log meal").navigationBarTitleDisplayMode(.inline).navigationDestination(for: Food.self) { FoodDetailView(food: $0, selection: $selection) } }
+    @FocusState private var searchFocused: Bool
+    private var launchState: String? {
+        let arguments = ProcessInfo.processInfo.arguments
+        guard let index = arguments.firstIndex(of: "--log-state"), arguments.indices.contains(index + 1) else { return nil }
+        return arguments[index + 1]
+    }
+    private var isLoading: Bool { launchState == "loading" }
+    private var filtered: [Food] {
+        let search = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !search.isEmpty else { return SeedData.foods }
+        return SeedData.foods.filter {
+            $0.name.localizedCaseInsensitiveContains(search) || $0.detail.localizedCaseInsensitiveContains(search)
+        }
+    }
+
+    var body: some View {
+        @Bindable var store = store
+        ScrollView {
+            VStack(spacing: 14) {
+                HJMealSelector(selection: $store.selectedMeal)
+
+                if store.isOffline {
+                    Label("Offline — you can still log foods saved on this device", systemImage: "wifi.slash")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(HJColor.slate)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 9)
+                        .background(HJColor.yellow.opacity(0.18))
+                        .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
+                        .accessibilityIdentifier("log.offline")
+                }
+
+                HStack(spacing: 10) {
+                    Image(systemName: "magnifyingglass").foregroundStyle(HJColor.slate)
+                    TextField("Search foods", text: $query)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .focused($searchFocused)
+                        .submitLabel(.search)
+                        .accessibilityIdentifier("log.search")
+                    if !query.isEmpty {
+                        Button { query = "" } label: {
+                            Image(systemName: "xmark.circle.fill").foregroundStyle(HJColor.slate.opacity(0.72)).frame(width: 30, height: 30)
+                        }
+                        .accessibilityLabel("Clear search")
+                    }
+                }
+                .padding(.horizontal, 14)
+                .frame(minHeight: 50)
+                .background(HJColor.card)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(searchFocused ? HJColor.teal : HJColor.line, lineWidth: searchFocused ? 1.5 : 1))
+                .shadow(color: HJColor.navy.opacity(0.04), radius: 7, y: 3)
+
+                HStack {
+                    Text(query.isEmpty ? "Recent foods" : "Search results").font(.title3.bold()).foregroundStyle(HJColor.navy)
+                    Spacer()
+                    if !isLoading { Text("\(filtered.count)").font(.caption.bold()).foregroundStyle(HJColor.slate).padding(.horizontal, 9).padding(.vertical, 4).background(HJColor.mist).clipShape(Capsule()) }
+                }
+
+                if isLoading {
+                    HJFoodListSkeleton()
+                } else if filtered.isEmpty {
+                    VStack(spacing: 9) {
+                        Text("🦦").font(.system(size: 40))
+                        Text("No foods found").font(.headline).foregroundStyle(HJColor.navy)
+                        Text("Try another name or clear the search.").font(.subheadline).foregroundStyle(HJColor.slate).multilineTextAlignment(.center)
+                        Button("Clear search") { query = ""; searchFocused = true }
+                            .font(.subheadline.bold())
+                            .foregroundStyle(HJColor.tealPressed)
+                            .frame(minHeight: 44)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 22)
+                    .hjCard()
+                    .accessibilityIdentifier("log.empty")
+                } else {
+                    VStack(spacing: 0) {
+                        ForEach(filtered) { food in
+                            NavigationLink(value: food) { HJFoodRow(food: food) }.buttonStyle(.plain)
+                            if food.id != filtered.last?.id { Divider() }
+                        }
+                    }
+                    .hjCard()
+                }
+
+                VStack(spacing: 5) {
+                    HStack {
+                        Text("\(store.selectedMeal.displayName) total").fontWeight(.semibold)
+                        Spacer()
+                        Text("\(store.calories(for: store.selectedMeal)) kcal").fontWeight(.bold).contentTransition(.numericText())
+                    }
+                    Text("Choose a food to review its portion before adding it.")
+                        .font(.caption)
+                        .foregroundStyle(HJColor.slate)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .hjCard()
+                .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("log.mealTotal")
+            }
+            .padding(16)
+            .padding(.bottom, 12)
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .background(HJColor.canvas)
+        .navigationTitle("Log meal")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(for: Food.self) { FoodDetailView(food: $0, selection: $selection) }
+    }
 }
 
 struct FoodDetailView: View {
     @Environment(AppStore.self) private var store
-    let food: Food; @Binding var selection: AppTab
+    let food: Food
+    @Binding var selection: AppTab
     @State private var servings = 1.0
-    var body: some View { @Bindable var store = store; ScrollView { VStack(spacing: 14) {
-        HStack(spacing: 18) { Text(food.emoji).font(.system(size: 74)); VStack(alignment: .leading) { Text(food.name).font(.title2.bold()); Text(food.detail).foregroundStyle(HJColor.slate) }; Spacer() }.padding(.vertical)
-        VStack(spacing: 15) { Text("Serving size").font(.subheadline); HStack { Button { servings = max(0.5, servings - 0.5) } label: { Image(systemName: "minus") }; Spacer(); Text(servings.formatted()).font(.title.bold()); Spacer(); Button { servings += 0.5 } label: { Image(systemName: "plus") } }.buttonStyle(.bordered).tint(HJColor.navy); Text(food.detail).foregroundStyle(HJColor.slate); Divider(); HStack { VStack { Text("\(Int(Double(food.calories) * servings))").font(.system(size: 42, weight: .bold, design: .rounded)); Text("kcal") }; Divider(); VStack(alignment: .leading, spacing: 8) { NutrientLine("Carbs", value: food.macros.carbs * servings, color: HJColor.yellow); NutrientLine("Protein", value: food.macros.protein * servings, color: HJColor.green); NutrientLine("Fat", value: food.macros.fat * servings, color: HJColor.coral); NutrientLine("Fiber", value: food.macros.fiber * servings, color: HJColor.teal) } } }.hjCard()
-        VStack(alignment: .leading, spacing: 12) { Text("Meal").font(.headline); Picker("Meal", selection: $store.selectedMeal) { ForEach(MealKind.allCases) { Text($0.rawValue).tag($0) } }.pickerStyle(.segmented) }.hjCard()
-        HJPrimaryButton(title: "Add to \(store.selectedMeal.rawValue.lowercased())") { store.log(food: food, servings: servings, meal: store.selectedMeal); selection = .habitat }
-    }.padding(16) }.background(HJColor.canvas).navigationTitle("Food details").navigationBarTitleDisplayMode(.inline) }
+    @State private var successFeedback = 0
+    private var calories: Int { Int(Double(food.calories) * servings) }
+    private var canLog: Bool { servings >= 0.5 && servings <= 20 && !store.isSelectedDateFuture }
+
+    var body: some View {
+        @Bindable var store = store
+        ScrollView {
+            VStack(spacing: 14) {
+                HStack(spacing: 16) {
+                    Text(food.emoji)
+                        .font(.system(size: 58))
+                        .frame(width: 88, height: 88)
+                        .background(HJColor.mist)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(HJColor.teal.opacity(0.14)))
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(food.name).font(.title2.bold()).foregroundStyle(HJColor.navy)
+                        Text(food.detail).font(.subheadline).foregroundStyle(HJColor.slate)
+                        Label("Illustrated food", systemImage: "leaf.fill").font(.caption2.weight(.semibold)).foregroundStyle(HJColor.green)
+                    }
+                    Spacer()
+                }
+                .padding(.vertical, 4)
+
+                VStack(spacing: 14) {
+                    HJServingStepper(servings: $servings)
+                    Divider()
+                    HStack {
+                        Text("Portion unit").font(.subheadline.weight(.semibold)).foregroundStyle(HJColor.slate)
+                        Spacer()
+                        Text(food.detail).font(.subheadline.weight(.semibold)).foregroundStyle(HJColor.navy)
+                    }
+                }
+                .hjCard()
+
+                HStack(spacing: 16) {
+                    VStack(spacing: 0) {
+                        Text(calories.formatted()).font(.system(size: 42, weight: .bold, design: .rounded)).foregroundStyle(HJColor.navy).contentTransition(.numericText())
+                        Text("kcal").font(.subheadline.weight(.semibold)).foregroundStyle(HJColor.slate)
+                    }
+                    .frame(width: 100)
+                    Divider()
+                    VStack(spacing: 9) {
+                        NutrientLine("Carbs", value: food.macros.carbs * servings, color: HJColor.yellow)
+                        NutrientLine("Protein", value: food.macros.protein * servings, color: HJColor.green)
+                        NutrientLine("Fat", value: food.macros.fat * servings, color: HJColor.coral)
+                        NutrientLine("Fiber", value: food.macros.fiber * servings, color: HJColor.teal)
+                    }
+                }
+                .frame(minHeight: 130)
+                .hjCard()
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("food.nutritionSummary")
+
+                VStack(alignment: .leading, spacing: 11) {
+                    Text("Meal").font(.headline).foregroundStyle(HJColor.navy)
+                    HJMealSelector(selection: $store.selectedMeal, compact: true)
+                }
+                .hjCard()
+
+                if store.isSelectedDateFuture {
+                    Label("Meals cannot be logged for a future date.", systemImage: "exclamationmark.circle.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Color.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(Color.red.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .accessibilityIdentifier("food.validation")
+                }
+            }
+            .padding(16)
+            .padding(.bottom, 92)
+        }
+        .background(HJColor.canvas)
+        .navigationTitle("Food details")
+        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                Button {
+                    guard store.log(food: food, servings: servings, meal: store.selectedMeal) else { return }
+                    successFeedback += 1
+                    selection = .today
+                } label: {
+                    Text("Add \(calories) kcal to \(store.selectedMeal.rawValue.lowercased())")
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, minHeight: 52)
+                }
+                .buttonStyle(.plain)
+                .background(canLog ? HJColor.teal : HJColor.line)
+                .foregroundStyle(canLog ? Color.white : HJColor.slate)
+                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                .disabled(!canLog)
+                .accessibilityIdentifier("food.addButton")
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 10)
+            .padding(.bottom, 6)
+            .background(.ultraThinMaterial)
+        }
+        .sensoryFeedback(.success, trigger: successFeedback)
+    }
 }
 
-struct NutrientLine: View { let label: String; let value: Double; let color: Color; init(_ label: String, value: Double, color: Color) { self.label = label; self.value = value; self.color = color }; var body: some View { HStack { Circle().fill(color).frame(width: 8, height: 8); Text(label); Spacer(); Text("\(Int(value)) g").fontWeight(.semibold) }.font(.subheadline).frame(width: 170) } }
+struct NutrientLine: View {
+    let label: String; let value: Double; let color: Color
+    init(_ label: String, value: Double, color: Color) { self.label = label; self.value = value; self.color = color }
+    var body: some View {
+        HStack(spacing: 7) {
+            Circle().fill(color).frame(width: 8, height: 8)
+            Text(label)
+            Spacer(minLength: 8)
+            Text("\(Int(value)) g").fontWeight(.semibold).contentTransition(.numericText())
+        }
+        .font(.subheadline)
+        .foregroundStyle(HJColor.navy)
+    }
+}

@@ -21,6 +21,7 @@ final class AppStore {
         self.state = persistence.load() ?? SeedData.state
         #if DEBUG
         let arguments = ProcessInfo.processInfo.arguments
+        if arguments.contains("--reset-demo") { state = SeedData.state }
         if let index = arguments.firstIndex(of: "--today-state"), arguments.indices.contains(index + 1) {
             switch arguments[index + 1] {
             case "empty": state.entries.removeAll { Calendar.current.isDateInToday($0.loggedAt) }
@@ -87,9 +88,10 @@ final class AppStore {
         isRefreshing = false
     }
 
-    func log(food: Food, servings: Double, meal: MealKind) {
-        guard servings > 0, servings <= 20 else { lastError = "Choose a serving between 0 and 20."; return }
-        guard !isSelectedDateFuture else { lastError = "Meals cannot be logged in the future."; return }
+    @discardableResult
+    func log(food: Food, servings: Double, meal: MealKind) -> Bool {
+        guard servings >= 0.5, servings <= 20 else { lastError = "Choose a serving between 0.5 and 20."; return false }
+        guard !isSelectedDateFuture else { lastError = "Meals cannot be logged in the future."; return false }
         let loggedAt = Calendar.current.date(
             bySettingHour: Calendar.current.component(.hour, from: Date()),
             minute: Calendar.current.component(.minute, from: Date()),
@@ -98,10 +100,11 @@ final class AppStore {
         ) ?? selectedDate
         state.entries.append(FoodEntry(id: UUID(), food: food, servings: servings, meal: meal, loggedAt: loggedAt))
         state.habitat.xp += 10
-        xpReceiptTitle = "\(meal.rawValue) updated"
+        xpReceiptTitle = "\(food.name) added"
         xpReceiptAmount = 10
         showXPReceipt = true
         persist()
+        return true
     }
 
     func dismissXPReceipt() { showXPReceipt = false }
