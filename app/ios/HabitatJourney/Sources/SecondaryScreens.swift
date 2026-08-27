@@ -36,6 +36,25 @@ private enum WeightPeriod: String, CaseIterable, Identifiable {
     var days: Int { self == .week ? 7 : self == .month ? 30 : 90 }
 }
 
+private func weightRecords(_ records: [WeightRecord], for period: WeightPeriod, now: Date = Date()) -> [WeightRecord] {
+    let calendar = Calendar.current
+    let cutoff = calendar.date(byAdding: .day, value: -(period.days - 1), to: calendar.startOfDay(for: now)) ?? .distantPast
+    return records.filter { $0.date >= cutoff && $0.date <= now }.sorted { $0.date < $1.date }
+}
+
+private func chartWeightRecords(_ records: [WeightRecord], for period: WeightPeriod) -> [WeightRecord] {
+    let filtered = weightRecords(records, for: period)
+    guard period == .quarter, filtered.count > 14 else { return filtered }
+    let calendar = Calendar.current
+    let grouped = Dictionary(grouping: filtered) { record in
+        calendar.dateInterval(of: .weekOfYear, for: record.date)?.start ?? calendar.startOfDay(for: record.date)
+    }
+    return grouped.keys.sorted().compactMap { week in
+        guard let values = grouped[week], let latest = values.max(by: { $0.date < $1.date }) else { return nil }
+        return WeightRecord(id: latest.id, date: latest.date, kilograms: values.reduce(0) { $0 + $1.kilograms } / Double(values.count))
+    }
+}
+
 private struct DailyNutritionPoint: Identifiable, Hashable {
     let date: Date
     let calories: Int
@@ -54,6 +73,7 @@ private struct ProgressAchievement: Identifiable, Hashable {
 struct ProgressScreen: View {
     @Environment(AppStore.self) private var store
     @State private var weightPeriod: WeightPeriod = .week
+    @State private var showWeightLogger = false
 
     private var launchState: String? {
         let arguments = ProcessInfo.processInfo.arguments
@@ -78,9 +98,7 @@ struct ProgressScreen: View {
         return isInsufficient ? Array(points.suffix(1)) : points
     }
     private var weightPoints: [WeightRecord] {
-        let calendar = Calendar.current
-        let cutoff = calendar.date(byAdding: .day, value: -(weightPeriod.days - 1), to: Date()) ?? .distantPast
-        let records = store.state.weights.filter { $0.date >= cutoff }.sorted { $0.date < $1.date }
+        let records = chartWeightRecords(store.state.weights, for: weightPeriod)
         return isInsufficient ? Array(records.suffix(1)) : records
     }
     private var weeklyAverage: Int {
@@ -110,8 +128,13 @@ struct ProgressScreen: View {
         .background(HJColor.canvas)
         .navigationBarHidden(true)
         .navigationDestination(for: ProgressRoute.self) { route in
-            ProgressDetailScreen(route: route, nutrition: nutritionPoints, weights: weightPoints, goals: store.state.goals, achievements: achievements)
+            if route == .weight {
+                WeightHistoryScreen()
+            } else {
+                ProgressDetailScreen(route: route, nutrition: nutritionPoints, goals: store.state.goals, achievements: achievements)
+            }
         }
+        .sheet(isPresented: $showWeightLogger) { WeightEntrySheet(unit: store.weightUnit) }
     }
 
     private var progressContent: some View {
@@ -142,22 +165,25 @@ struct ProgressScreen: View {
                     HStack {
                         VStack(alignment: .leading, spacing: 1) { Text("Weight trend").font(.headline); Text("Your measurements").font(.caption).foregroundStyle(HJColor.slate) }
                         Spacer()
-                        Picker("Weight period", selection: $weightPeriod) { ForEach(WeightPeriod.allCases) { Text($0.rawValue).tag($0) } }
-                            .pickerStyle(.segmented).frame(width: 158)
+                        Button { showWeightLogger = true } label: { Label("Log", systemImage: "plus").font(.subheadline.bold()).frame(minHeight: 44) }
+                            .foregroundStyle(HJColor.tealPressed)
+                            .accessibilityIdentifier("weight.log")
                     }
+                    HJWeightSummary(records: weightRecords(store.state.weights, for: weightPeriod), unit: store.weightUnit)
+                    Picker("Weight period", selection: $weightPeriod) { ForEach(WeightPeriod.allCases) { Text($0.rawValue).tag($0) } }
+                        .pickerStyle(.segmented)
                     if weightPoints.count < 2 {
                         HJInsufficientDataRow(message: "Add one more weight entry to reveal a trend.")
                     } else {
                         NavigationLink(value: ProgressRoute.weight) {
-                            HJWeightChart(records: weightPoints).frame(height: 126)
+                            HJWeightChart(records: weightPoints, unit: store.weightUnit).frame(height: 126)
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Open weight trend details")
-                        .accessibilityIdentifier("progress.weightDetail")
+                        .accessibilityIdentifier("progress.weight")
                     }
                 }
                 .hjCard()
-                .accessibilityIdentifier("progress.weight")
 
                 VStack(alignment: .leading, spacing: 10) {
                     HStack { Text("Trail badges").font(.headline); Spacer(); Text("\(achievements.count) earned").font(.caption.bold()).foregroundStyle(HJColor.tealPressed) }
@@ -283,20 +309,278 @@ private struct HJMacroAverageValue: View {
 
 private struct HJWeightChart: View {
     let records: [WeightRecord]
+    let unit: WeightUnit
     private var domain: ClosedRange<Double> {
-        let values = records.map(\.kilograms)
-        return ((values.min() ?? 65) - 0.4)...((values.max() ?? 75) + 0.4)
+        let values = records.map { unit.displayValue(forKilograms: $0.kilograms) }
+        let padding = unit == .kilograms ? 0.4 : 0.9
+        return ((values.min() ?? unit.displayValue(forKilograms: 65)) - padding)...((values.max() ?? unit.displayValue(forKilograms: 75)) + padding)
     }
     var body: some View {
         Chart(records.sorted { $0.date < $1.date }) { record in
-            AreaMark(x: .value("Date", record.date), yStart: .value("Baseline", domain.lowerBound), yEnd: .value("Weight", record.kilograms)).foregroundStyle(LinearGradient(colors: [HJColor.teal.opacity(0.22), .clear], startPoint: .top, endPoint: .bottom))
-            LineMark(x: .value("Date", record.date), y: .value("Weight", record.kilograms)).foregroundStyle(HJColor.teal).lineStyle(.init(lineWidth: 3, lineCap: .round, lineJoin: .round))
-            PointMark(x: .value("Date", record.date), y: .value("Weight", record.kilograms)).foregroundStyle(HJColor.teal).symbolSize(28)
+            let value = unit.displayValue(forKilograms: record.kilograms)
+            AreaMark(x: .value("Date", record.date), yStart: .value("Baseline", domain.lowerBound), yEnd: .value("Weight", value)).foregroundStyle(LinearGradient(colors: [HJColor.teal.opacity(0.22), .clear], startPoint: .top, endPoint: .bottom))
+            LineMark(x: .value("Date", record.date), y: .value("Weight", value)).foregroundStyle(HJColor.teal).lineStyle(.init(lineWidth: 3, lineCap: .round, lineJoin: .round))
+            PointMark(x: .value("Date", record.date), y: .value("Weight", value)).foregroundStyle(HJColor.teal).symbolSize(28)
         }
         .chartYScale(domain: domain)
         .chartXAxis { AxisMarks(values: .automatic(desiredCount: 4)) { _ in AxisValueLabel(format: .dateTime.day().month(.abbreviated)); AxisGridLine().foregroundStyle(HJColor.line) } }
         .chartYAxis { AxisMarks(position: .leading, values: .automatic(desiredCount: 3)) { AxisGridLine().foregroundStyle(HJColor.line); AxisValueLabel() } }
-        .accessibilityLabel("Weight trend from \(records.first?.kilograms.formatted() ?? "") to \(records.last?.kilograms.formatted() ?? "") kilograms")
+        .accessibilityLabel("Weight trend from \(formattedWeight(records.first?.kilograms, unit: unit)) to \(formattedWeight(records.last?.kilograms, unit: unit))")
+    }
+}
+
+private func formattedWeight(_ kilograms: Double?, unit: WeightUnit) -> String {
+    guard let kilograms else { return "No measurement" }
+    return "\(unit.displayValue(forKilograms: kilograms).formatted(.number.precision(.fractionLength(1)))) \(unit.rawValue)"
+}
+
+private struct HJWeightSummary: View {
+    let records: [WeightRecord]
+    let unit: WeightUnit
+
+    var body: some View {
+        if let latest = records.last {
+            HStack(alignment: .firstTextBaseline) {
+                Text(formattedWeight(latest.kilograms, unit: unit)).font(.title2.bold()).foregroundStyle(HJColor.navy)
+                Spacer()
+                if let first = records.first, records.count > 1 {
+                    let change = unit.displayValue(forKilograms: latest.kilograms - first.kilograms)
+                    Text("\(change > 0 ? "+" : "")\(change.formatted(.number.precision(.fractionLength(1)))) \(unit.rawValue)")
+                        .font(.subheadline.bold())
+                        .foregroundStyle(HJColor.slate)
+                        .accessibilityLabel("Change \(change.formatted(.number.precision(.fractionLength(1)))) \(unit.title.lowercased())")
+                }
+            }
+        } else {
+            Text("No measurements yet").font(.subheadline).foregroundStyle(HJColor.slate)
+        }
+    }
+}
+
+private struct WeightEntrySheet: View {
+    let record: WeightRecord?
+    let unit: WeightUnit
+
+    init(record: WeightRecord? = nil, unit: WeightUnit) {
+        self.record = record
+        self.unit = unit
+    }
+
+    var body: some View {
+        NavigationStack { WeightEntryForm(record: record, unit: unit) }
+            .presentationDetents([.medium, .large])
+    }
+}
+
+private struct WeightEntryForm: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(AppStore.self) private var store
+    let record: WeightRecord?
+    @State private var valueText: String
+    @State private var date: Date
+    @State private var unit: WeightUnit
+    @State private var showUpdateConfirmation = false
+
+    init(record: WeightRecord? = nil, unit: WeightUnit) {
+        self.record = record
+        _unit = State(initialValue: unit)
+        _date = State(initialValue: record?.date ?? Date())
+        let value = record.map { unit.displayValue(forKilograms: $0.kilograms) }
+        _valueText = State(initialValue: value?.formatted(.number.precision(.fractionLength(1))) ?? "")
+    }
+
+    private var displayValue: Double? {
+        Double(valueText.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: ",", with: "."))
+    }
+    private var kilograms: Double? { displayValue.map { unit.kilograms(fromDisplayValue: $0) } }
+    private var isValid: Bool { kilograms.map { (20...500).contains($0) } ?? false }
+    private var collision: WeightRecord? {
+        guard let existing = store.weightRecord(on: date), existing.id != record?.id else { return nil }
+        return existing
+    }
+
+    var body: some View {
+        Form {
+                Section {
+                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                        TextField("0.0", text: $valueText)
+                            .font(.system(size: 42, weight: .bold, design: .rounded))
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                            .accessibilityLabel("Weight")
+                            .accessibilityIdentifier("weight.value")
+                        Text(unit.rawValue).font(.title3.bold()).foregroundStyle(HJColor.slate)
+                    }
+                    Picker("Unit", selection: $unit) {
+                        ForEach(WeightUnit.allCases) { Text($0.rawValue).tag($0) }
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityIdentifier("weight.unit")
+                } header: { Text("Measurement") } footer: {
+                    if !valueText.isEmpty, !isValid {
+                        Text(unit == .kilograms ? "Enter a weight between 20 and 500 kg." : "Enter a weight between 44.1 and 1,102.3 lb.")
+                            .foregroundStyle(.red)
+                    } else {
+                        Text("Weight is stored securely on this device and used only for your trend.")
+                    }
+                }
+
+                Section("Date") {
+                    DatePicker("Measurement date", selection: $date, in: ...Date(), displayedComponents: .date)
+                        .accessibilityIdentifier("weight.date")
+                }
+
+                if let collision {
+                    Section {
+                        Label("A \(formattedWeight(collision.kilograms, unit: unit)) measurement already exists for this date. Saving will update it.", systemImage: "arrow.triangle.2.circlepath")
+                            .font(.subheadline)
+                            .foregroundStyle(HJColor.slate)
+                    }
+                }
+        }
+        .navigationTitle(record == nil ? "Log weight" : "Edit weight")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
+            ToolbarItem(placement: .confirmationAction) {
+                Button(record == nil ? "Save" : "Update") { attemptSave() }
+                    .fontWeight(.bold)
+                    .disabled(!isValid)
+                    .accessibilityIdentifier("weight.save")
+            }
+        }
+        .onChange(of: unit) { oldUnit, newUnit in
+            guard let oldValue = displayValue else { return }
+            let converted = newUnit.displayValue(forKilograms: oldUnit.kilograms(fromDisplayValue: oldValue))
+            valueText = converted.formatted(.number.precision(.fractionLength(1)))
+        }
+        .alert("Update this measurement?", isPresented: $showUpdateConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Update") { save() }
+        } message: {
+            Text("Only one weight measurement is kept for each day.")
+        }
+    }
+
+    private func attemptSave() {
+        if collision != nil { showUpdateConfirmation = true } else { save() }
+    }
+
+    private func save() {
+        guard let kilograms else { return }
+        if store.saveWeight(kilograms: kilograms, on: date, editingID: record?.id) {
+            store.setWeightUnit(unit)
+            dismiss()
+        }
+    }
+}
+
+private struct WeightHistoryScreen: View {
+    @Environment(AppStore.self) private var store
+    @State private var period: WeightPeriod = .month
+    @State private var showLogger = false
+    @State private var deletedRecord: DeletedWeightRecord?
+    @State private var undoDismissTask: Task<Void, Never>?
+
+    private var records: [WeightRecord] { weightRecords(store.state.weights, for: period) }
+    private var chartRecords: [WeightRecord] { chartWeightRecords(store.state.weights, for: period) }
+
+    var body: some View {
+        List {
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    HJWeightSummary(records: records, unit: store.weightUnit)
+                    Picker("Weight period", selection: $period) { ForEach(WeightPeriod.allCases) { Text($0.rawValue).tag($0) } }
+                        .pickerStyle(.segmented)
+                        .accessibilityIdentifier("weight.period")
+                    if chartRecords.count > 1 {
+                        HJWeightChart(records: chartRecords, unit: store.weightUnit).frame(height: 250)
+                    } else if chartRecords.count == 1 {
+                        HJInsufficientDataRow(message: "Add one more weight entry to reveal a trend.")
+                    } else {
+                        VStack(spacing: 10) {
+                            Image(systemName: "scalemass").font(.system(size: 34)).foregroundStyle(HJColor.teal)
+                            Text("Start your weight trend").font(.headline)
+                            Text("Add a measurement when you’re ready. Changes are shown neutrally over time.").font(.subheadline).foregroundStyle(HJColor.slate).multilineTextAlignment(.center)
+                            Button("Log weight") { showLogger = true }.fontWeight(.bold).foregroundStyle(HJColor.tealPressed).frame(minHeight: 44)
+                        }.frame(maxWidth: .infinity).padding(.vertical, 18)
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 8, trailing: 16))
+                .listRowBackground(HJColor.card)
+            }
+
+            if !records.isEmpty {
+                Section("Measurements") {
+                    ForEach(records.sorted { $0.date > $1.date }) { record in
+                        NavigationLink {
+                            WeightEntryForm(record: record, unit: store.weightUnit)
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(record.date.formatted(date: .abbreviated, time: .omitted)).fontWeight(.semibold).foregroundStyle(HJColor.navy)
+                                    Text(Calendar.current.isDateInToday(record.date) ? "Today" : record.date.formatted(.dateTime.weekday(.wide))).font(.caption).foregroundStyle(HJColor.slate)
+                                }
+                                Spacer()
+                                Text(formattedWeight(record.kilograms, unit: store.weightUnit)).fontWeight(.bold).foregroundStyle(HJColor.navy)
+                                Image(systemName: "chevron.right").font(.caption).foregroundStyle(HJColor.slate)
+                            }.frame(minHeight: 44)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("weight.record")
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button(role: .destructive) { delete(record) } label: { Label("Delete", systemImage: "trash") }
+                                .tint(.red)
+                        }
+                    }
+                }
+            }
+        }
+        .listStyle(.insetGrouped)
+        .scrollContentBackground(.hidden)
+        .background(HJColor.canvas)
+        .navigationTitle("Weight")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button { showLogger = true } label: { Image(systemName: "plus").frame(width: 44, height: 44) }
+                    .accessibilityLabel("Log weight")
+                    .accessibilityIdentifier("weight.history.log")
+            }
+        }
+        .sheet(isPresented: $showLogger) { WeightEntrySheet(unit: store.weightUnit) }
+        .overlay(alignment: .bottom) {
+            if deletedRecord != nil {
+                HStack(spacing: 10) {
+                    Image(systemName: "trash.fill").foregroundStyle(.red)
+                    Text("Measurement removed").font(.subheadline.weight(.semibold))
+                    Spacer()
+                    Button("Undo") { undoDelete() }.font(.subheadline.bold()).foregroundStyle(HJColor.teal)
+                }
+                .padding(.horizontal, 14).frame(minHeight: 50).background(HJColor.navy).foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous)).shadow(color: HJColor.navy.opacity(0.18), radius: 12, y: 5)
+                .padding(.horizontal, 16).padding(.bottom, 12).transition(.move(edge: .bottom).combined(with: .opacity))
+                .accessibilityIdentifier("weight.deleteConfirmation")
+            }
+        }
+        .animation(.snappy, value: deletedRecord != nil)
+        .onDisappear { undoDismissTask?.cancel() }
+    }
+
+    private func delete(_ record: WeightRecord) {
+        undoDismissTask?.cancel()
+        deletedRecord = store.deleteWeight(id: record.id)
+        undoDismissTask = Task {
+            try? await Task.sleep(for: .seconds(5))
+            guard !Task.isCancelled else { return }
+            await MainActor.run { deletedRecord = nil }
+        }
+    }
+
+    private func undoDelete() {
+        undoDismissTask?.cancel()
+        if let deletedRecord { store.restoreWeight(deletedRecord) }
+        deletedRecord = nil
     }
 }
 
@@ -348,7 +632,6 @@ private struct HJProgressEmptyState: View {
 private struct ProgressDetailScreen: View {
     let route: ProgressRoute
     let nutrition: [DailyNutritionPoint]
-    let weights: [WeightRecord]
     let goals: NutritionGoals
     let achievements: [ProgressAchievement]
 
@@ -370,8 +653,7 @@ private struct ProgressDetailScreen: View {
                     HJMacroAveragesCard(macros: .init(protein: total.protein / count, carbs: total.carbs / count, fat: total.fat / count, fiber: total.fiber / count), insufficient: nutrition.count < 2)
                     VStack(alignment: .leading, spacing: 12) { Text("How to read this").font(.headline); Text("Percentages show each macro’s share of measured food energy. Gram averages help you compare days without labeling foods as good or bad.").foregroundStyle(HJColor.slate) }.hjCard()
                 case .weight:
-                    VStack(alignment: .leading, spacing: 12) { Text("Weight measurements").font(.headline); HJWeightChart(records: weights).frame(height: 260) }.hjCard()
-                    VStack(spacing: 0) { ForEach(weights.sorted { $0.date > $1.date }) { record in HStack { Text(record.date.formatted(date: .abbreviated, time: .omitted)); Spacer(); Text("\(record.kilograms.formatted(.number.precision(.fractionLength(1)))) kg").fontWeight(.bold) }.frame(minHeight: 44); if record.id != weights.sorted(by: { $0.date > $1.date }).last?.id { Divider() } } }.hjCard()
+                    EmptyView()
                 case .achievement:
                     if let achievement { VStack(spacing: 16) { Text(achievement.animal).font(.system(size: 100)).frame(width: 170, height: 170).background(achievement.color.opacity(0.13)).clipShape(Circle()); Text(achievement.title).font(.system(size: 32, weight: .bold, design: .rounded)).foregroundStyle(HJColor.navy); Text(achievement.detail).font(.title3).foregroundStyle(HJColor.slate).multilineTextAlignment(.center); Label("Badge earned", systemImage: "checkmark.seal.fill").font(.headline).foregroundStyle(achievement.color) }.frame(maxWidth: .infinity).padding(.vertical, 28).hjCard() }
                 }
@@ -390,10 +672,11 @@ private struct ProgressDetailScreen: View {
 
 struct ProfileScreen: View {
     @Environment(AppStore.self) private var store
-    var body: some View { Form { Section("Nutrition goals") { LabeledContent("Daily calories", value: "\(store.state.goals.calories) kcal"); LabeledContent("Protein", value: "\(Int(store.state.goals.protein)) g"); LabeledContent("Carbohydrates", value: "\(Int(store.state.goals.carbs)) g") }; Section("Preferences") { Toggle("Meal reminders", isOn: .constant(true)); Toggle("Habitat celebrations", isOn: .constant(true)) }; Section { Button("Reset demo data", role: .destructive) { store.resetDemo() } } }.navigationTitle("Profile") }
+    var body: some View { Form { Section("Nutrition goals") { LabeledContent("Daily calories", value: "\(store.state.goals.calories) kcal"); LabeledContent("Protein", value: "\(Int(store.state.goals.protein)) g"); LabeledContent("Carbohydrates", value: "\(Int(store.state.goals.carbs)) g") }; Section("Units") { Picker("Weight", selection: Binding(get: { store.weightUnit }, set: { store.setWeightUnit($0) })) { ForEach(WeightUnit.allCases) { Text($0.title).tag($0) } } }; Section("Preferences") { Toggle("Meal reminders", isOn: .constant(true)); Toggle("Habitat celebrations", isOn: .constant(true)) }; Section { Button("Reset demo data", role: .destructive) { store.resetDemo() } } }.navigationTitle("Profile") }
 }
 
 struct AccountScreen: View {
+    @Environment(AppStore.self) private var store
     @State private var email = ""
     @State private var password = ""
     @State private var displayName = ""
@@ -403,6 +686,12 @@ struct AccountScreen: View {
 
     var body: some View {
         Form {
+            Section("Units") {
+                Picker("Weight", selection: Binding(get: { store.weightUnit }, set: { store.setWeightUnit($0) })) {
+                    ForEach(WeightUnit.allCases) { Text($0.title).tag($0) }
+                }
+                .accessibilityIdentifier("settings.weightUnit")
+            }
             Section {
                 Picker("Mode", selection: $isRegistering) { Text("Sign in").tag(false); Text("Create account").tag(true) }.pickerStyle(.segmented)
                 if isRegistering { TextField("Display name", text: $displayName).textContentType(.name) }

@@ -15,6 +15,8 @@
 - Meal review: selected items, total nutrition, save confirmation.
 - Barcode result and no-result states.
 - Custom food and saved meal creation.
+- Weight logging and editing with date and kg/lb support.
+- Weight history with 7-day, 1-month, and 3-month trends plus reversible deletion.
 - Friend unlocked celebration.
 - Friend collection and friend profile.
 - Habitat upgrade preview and confirmation.

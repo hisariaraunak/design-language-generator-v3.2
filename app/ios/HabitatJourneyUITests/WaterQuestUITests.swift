@@ -221,9 +221,9 @@ final class ProgressUITests: XCTestCase {
         XCTAssertTrue(month.isHittable)
         month.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         app.buttons["progress.weight"].tap()
-        XCTAssertTrue(app.navigationBars["Weight trend"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.navigationBars["Weight"].waitForExistence(timeout: 3))
 
-        app.navigationBars["Weight trend"].buttons.firstMatch.tap()
+        app.navigationBars["Weight"].buttons.firstMatch.tap()
         scroll.swipeUp()
         let badge = app.descendants(matching: .any)["progress.badge.steady-otter"]
         XCTAssertTrue(badge.waitForExistence(timeout: 3))
@@ -244,6 +244,58 @@ final class ProgressUITests: XCTestCase {
         app.terminate()
         app = launch("--reset-demo", "--screen", "progress", "--progress-state", "insufficient")
         XCTAssertTrue(app.descendants(matching: .any)["progress.insufficient"].firstMatch.waitForExistence(timeout: 4))
+    }
+
+    func testLogWeightFromProgressAndSwitchToPounds() {
+        let app = launch("--reset-demo", "--screen", "progress")
+        let scroll = app.scrollViews.firstMatch
+        XCTAssertTrue(scroll.waitForExistence(timeout: 4))
+        scroll.swipeUp()
+
+        let logButton = app.buttons["weight.log"]
+        XCTAssertTrue(logButton.waitForExistence(timeout: 3))
+        logButton.tap()
+        XCTAssertTrue(app.navigationBars["Log weight"].waitForExistence(timeout: 3))
+
+        let pounds = app.segmentedControls.buttons["lb"]
+        XCTAssertTrue(pounds.waitForExistence(timeout: 2))
+        pounds.tap()
+        let value = app.textFields["weight.value"]
+        value.tap()
+        value.typeText("154.0")
+        app.buttons["weight.save"].tap()
+        XCTAssertTrue(app.alerts["Update this measurement?"].waitForExistence(timeout: 2))
+        app.alerts.buttons["Update"].tap()
+
+        XCTAssertFalse(app.navigationBars["Log weight"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.staticTexts["154.0 lb"].waitForExistence(timeout: 3))
+    }
+
+    func testEditDeleteAndUndoWeightMeasurement() {
+        let app = launch("--reset-demo", "--screen", "progress")
+        let scroll = app.scrollViews.firstMatch
+        XCTAssertTrue(scroll.waitForExistence(timeout: 4))
+        scroll.swipeUp()
+        let trend = app.buttons["progress.weight"]
+        XCTAssertTrue(trend.waitForExistence(timeout: 3))
+        trend.tap()
+        XCTAssertTrue(app.navigationBars["Weight"].waitForExistence(timeout: 3))
+
+        let record = app.buttons["weight.record"].firstMatch
+        XCTAssertTrue(record.waitForExistence(timeout: 3))
+        let hittable = XCTNSPredicateExpectation(predicate: NSPredicate(format: "hittable == true"), object: record)
+        XCTAssertEqual(XCTWaiter.wait(for: [hittable], timeout: 3), .completed)
+        record.tap()
+        XCTAssertTrue(app.navigationBars["Edit weight"].waitForExistence(timeout: 2))
+        app.buttons["Cancel"].tap()
+
+        let row = app.buttons["weight.record"].firstMatch
+        row.swipeLeft()
+        XCTAssertTrue(app.buttons["Delete"].waitForExistence(timeout: 2))
+        app.buttons["Delete"].tap()
+        XCTAssertTrue(app.descendants(matching: .any)["weight.deleteConfirmation"].waitForExistence(timeout: 2))
+        app.buttons["Undo"].tap()
+        XCTAssertTrue(app.buttons["weight.record"].firstMatch.waitForExistence(timeout: 2))
     }
 
     private func launch(_ arguments: String...) -> XCUIApplication {

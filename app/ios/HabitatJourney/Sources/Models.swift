@@ -16,11 +16,33 @@ struct Food: Codable, Identifiable, Hashable {
 struct FoodEntry: Codable, Identifiable, Hashable { let id: UUID; let food: Food; var servings: Double; var meal: MealKind; let loggedAt: Date }
 struct NutritionGoals: Codable { var calories = 2000; var protein = 120.0; var carbs = 250.0; var fat = 70.0; var fiber = 30.0 }
 struct HabitatState: Codable { var xp = 620; var level = 4; var unlockedFriendIDs = ["ollie", "reed", "crabby"]; var didUnlockShelly = false }
-struct WeightRecord: Codable, Identifiable { let id: UUID; let date: Date; let kilograms: Double }
+
+enum WeightUnit: String, Codable, CaseIterable, Identifiable {
+    case kilograms = "kg"
+    case pounds = "lb"
+
+    var id: String { rawValue }
+    var title: String { self == .kilograms ? "Kilograms" : "Pounds" }
+
+    func displayValue(forKilograms kilograms: Double) -> Double {
+        self == .kilograms ? kilograms : kilograms * 2.204_622_621_8
+    }
+
+    func kilograms(fromDisplayValue value: Double) -> Double {
+        self == .kilograms ? value : value / 2.204_622_621_8
+    }
+}
+
+struct WeightRecord: Codable, Identifiable, Equatable {
+    let id: UUID
+    let date: Date
+    let kilograms: Double
+}
 
 struct PersistedState: Codable {
     var entries: [FoodEntry]; var goals: NutritionGoals; var habitat: HabitatState; var weights: [WeightRecord]; var streak: Int
     var waterLiters: Double?
+    var weightUnit: WeightUnit?
 }
 
 extension MacroNutrients: Hashable {}

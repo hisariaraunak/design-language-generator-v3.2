@@ -52,6 +52,7 @@ final class AppStore {
     var isSelectedDateToday: Bool { Calendar.current.isDateInToday(selectedDate) }
     var isSelectedDateFuture: Bool { selectedDate > Calendar.current.startOfDay(for: Date()) }
     var waterLiters: Double { state.waterLiters ?? 1.2 }
+    var weightUnit: WeightUnit { state.weightUnit ?? .kilograms }
     var questProgress: Double { min(1, waterLiters / 2) }
     var isQuestComplete: Bool { waterLiters >= 2 }
 
@@ -149,12 +150,71 @@ final class AppStore {
         persist()
     }
 
+    func weightRecord(on date: Date) -> WeightRecord? {
+        state.weights.first { Calendar.current.isDate($0.date, inSameDayAs: date) }
+    }
+
+    func setWeightUnit(_ unit: WeightUnit) {
+        state.weightUnit = unit
+        persist()
+    }
+
+    @discardableResult
+    func saveWeight(kilograms: Double, on date: Date, editingID: UUID? = nil) -> Bool {
+        guard kilograms.isFinite, (20...500).contains(kilograms) else {
+            lastError = "Enter a weight between 20 and 500 kg."
+            return false
+        }
+        guard Calendar.current.startOfDay(for: date) <= Calendar.current.startOfDay(for: Date()) else {
+            lastError = "Weight cannot be logged in the future."
+            return false
+        }
+
+        let normalizedDate = Calendar.current.startOfDay(for: date)
+        let matchingDateIndex = state.weights.firstIndex { Calendar.current.isDate($0.date, inSameDayAs: normalizedDate) }
+        let editingIndex = editingID.flatMap { id in state.weights.firstIndex { $0.id == id } }
+        let recordID = editingID ?? matchingDateIndex.map { state.weights[$0].id } ?? UUID()
+        let replacement = WeightRecord(id: recordID, date: normalizedDate, kilograms: kilograms)
+
+        if let editingIndex {
+            state.weights[editingIndex] = replacement
+            state.weights.removeAll { $0.id != recordID && Calendar.current.isDate($0.date, inSameDayAs: normalizedDate) }
+        } else if let matchingDateIndex {
+            state.weights[matchingDateIndex] = replacement
+        } else {
+            state.weights.append(replacement)
+        }
+        state.weights.sort { $0.date > $1.date }
+        persist()
+        return true
+    }
+
+    @discardableResult
+    func deleteWeight(id: UUID) -> DeletedWeightRecord? {
+        guard let index = state.weights.firstIndex(where: { $0.id == id }) else { return nil }
+        let deleted = DeletedWeightRecord(record: state.weights.remove(at: index), originalIndex: index)
+        persist()
+        return deleted
+    }
+
+    func restoreWeight(_ deleted: DeletedWeightRecord) {
+        guard !state.weights.contains(where: { $0.id == deleted.record.id }) else { return }
+        state.weights.removeAll { Calendar.current.isDate($0.date, inSameDayAs: deleted.record.date) }
+        state.weights.insert(deleted.record, at: min(deleted.originalIndex, state.weights.endIndex))
+        persist()
+    }
+
     func resetDemo() { state = SeedData.state; persist() }
     private func persist() { do { try persistence.save(state) } catch { lastError = "Your changes could not be saved." } }
 }
 
 struct DeletedFoodEntry: Equatable {
     let entry: FoodEntry
+    let originalIndex: Int
+}
+
+struct DeletedWeightRecord: Equatable {
+    let record: WeightRecord
     let originalIndex: Int
 }
 
@@ -201,6 +261,11 @@ enum SeedData {
             )
             entries.append(FoodEntry(id: UUID(), food: food, servings: 1, meal: .dinner, loggedAt: calendar.date(byAdding: .day, value: -(offset + 1), to: now) ?? now))
         }
-        return PersistedState(entries: entries, goals: NutritionGoals(), habitat: HabitatState(), weights: (0..<7).map { i in WeightRecord(id: UUID(), date: calendar.date(byAdding: .day, value: -i, to: now)!, kilograms: 70.4 + Double(i) * 0.18) }, streak: 7, waterLiters: 1.2)
+        let weightDays = Array(0...6) + Array(stride(from: 7, through: 84, by: 7))
+        let weights = weightDays.enumerated().map { index, daysAgo in
+            let kilograms = 70.4 + Double(daysAgo) * 0.025 + sin(Double(index) * 0.7) * 0.12
+            return WeightRecord(id: UUID(), date: calendar.date(byAdding: .day, value: -daysAgo, to: now)!, kilograms: kilograms)
+        }
+        return PersistedState(entries: entries, goals: NutritionGoals(), habitat: HabitatState(), weights: weights, streak: 7, waterLiters: 1.2, weightUnit: .kilograms)
     }
 }
