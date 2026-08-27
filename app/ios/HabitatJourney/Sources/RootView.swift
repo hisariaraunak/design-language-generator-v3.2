@@ -174,6 +174,7 @@ struct MealDetailView: View {
                             .listRowSeparatorTint(HJColor.line)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button(role: .destructive) { delete(entry) } label: { Label("Delete", systemImage: "trash") }
+                                    .tint(.red)
                                     .accessibilityIdentifier("meal.delete.\(entry.food.name)")
                             }
                     }
