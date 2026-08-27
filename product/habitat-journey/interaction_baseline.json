@@ -1,0 +1,11 @@
+{
+  "status": "locked",
+  "navigation": {"model": "five-tab with platform-native back", "destinations": ["today", "log", "progress", "habitat", "profile"]},
+  "focus_keyboard": {"order": "document order", "visible_focus": true, "keyboard_traps": false},
+  "gestures": {"alternatives_required": true, "swipe_only_actions": false},
+  "validation": {"inline_errors": true, "preserve_input": true, "recovery_copy": true},
+  "overlays": {"focus_trap": true, "announced_title": true, "explicit_dismissal": true},
+  "selection": {"explicit_visual_state": true, "accessibility_state": true},
+  "destructive_actions": {"confirmation": "risk-based", "undo_when_safe": true},
+  "async_states": {"loading": true, "empty": true, "offline": true, "partial": true, "error": true, "success": true}
+}

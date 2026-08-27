@@ -1,0 +1,302 @@
+{
+  "edges": [],
+  "nodes": [
+    {
+      "id": "scope-contract-md",
+      "kind": "external",
+      "path": "SCOPE_CONTRACT.md",
+      "phase": "intake_scope",
+      "producer": "codex.local-authoring",
+      "sha256": "208b642976b033d78a4d11803e914ebbc901969d5966b5494173a5ecb250eaeb"
+    },
+    {
+      "id": "scope",
+      "kind": "external",
+      "path": "scope.json",
+      "phase": "intake_scope",
+      "producer": "codex.local-authoring",
+      "sha256": "0a4b3d13084b2cf4b5169e3e651ed7d3b837e2ab7da1b62811e84db801a65520"
+    },
+    {
+      "id": "visual-dna",
+      "kind": "external",
+      "path": "VISUAL_DNA.md",
+      "phase": "visual_dna",
+      "producer": "codex.local-authoring",
+      "sha256": "4f1e3f13d7f7e2a93749ddfc25dc61d3b6e7b396635ae85a7f132399fe784833"
+    },
+    {
+      "id": "screen-inventory-json",
+      "kind": "external",
+      "path": "screen_inventory.json",
+      "phase": "visual_dna",
+      "producer": "codex.local-authoring",
+      "sha256": "a95493b000f705e79c2993b886e653b00f0d83082ca024734648b701845c802a"
+    },
+    {
+      "id": "decisions",
+      "kind": "external",
+      "path": "DESIGN_DECISIONS.md",
+      "phase": "interview",
+      "producer": "codex.local-authoring",
+      "sha256": "ed027f3ce9dfd24fdb4572f3f9bfcd952b8b0faafe13e2098805fc4d0faaab75"
+    },
+    {
+      "id": "project-state-json",
+      "kind": "external",
+      "path": "project_state.json",
+      "phase": "interview",
+      "producer": "codex.local-authoring",
+      "sha256": "e4027565d99cf8add975bd555858f1e54131302de77f5edf2a609ad04ccda085"
+    },
+    {
+      "id": "directions-md",
+      "kind": "external",
+      "path": "DIRECTIONS.md",
+      "phase": "directions",
+      "producer": "codex.local-authoring",
+      "sha256": "291079b36307148933c8a092f5640b65047ef619077d4e463e53db1e4af945f3"
+    },
+    {
+      "id": "directions",
+      "kind": "external",
+      "path": "03-directions/directions.html",
+      "phase": "directions",
+      "producer": "codex.local-authoring",
+      "sha256": "2fe4767d6a4b7e4062180b275abacd9d5dd9f7d30e0f8f54bbfa2421031ce4ed"
+    },
+    {
+      "id": "directions-json",
+      "kind": "external",
+      "path": "03-directions/directions.json",
+      "phase": "directions",
+      "producer": "codex.local-authoring",
+      "sha256": "21eb33509c489dd0952465d89a52147b9dfc9f8fe5e2dbe632da859183756bd5"
+    },
+    {
+      "id": "visual-baseline-md",
+      "kind": "external",
+      "path": "VISUAL_BASELINE.md",
+      "phase": "baselines",
+      "producer": "codex.local-authoring",
+      "sha256": "0e93a4f9a4a6452862d999f5e5d09e9761f6d86626486a1aa97b3ceba48739f3"
+    },
+    {
+      "id": "visual-baseline",
+      "kind": "external",
+      "path": "visual_baseline.json",
+      "phase": "baselines",
+      "producer": "codex.local-authoring",
+      "sha256": "6d2578ae6f18600eef7893b3ab1d542f8dd827710dc5e22633a4a832d4b09a03"
+    },
+    {
+      "id": "interaction-baseline-md",
+      "kind": "external",
+      "path": "INTERACTION_BASELINE.md",
+      "phase": "baselines",
+      "producer": "codex.local-authoring",
+      "sha256": "5f65e25fcae8affc9bb9c07b60019d6fc14fd163d4a293f759a92e9382e17c47"
+    },
+    {
+      "id": "interaction-baseline",
+      "kind": "external",
+      "path": "interaction_baseline.json",
+      "phase": "baselines",
+      "producer": "codex.local-authoring",
+      "sha256": "1c000437472b71e7593f1f31f46b9fa720b052612d2c18b1b78609c7f1a664ad"
+    },
+    {
+      "id": "language",
+      "kind": "external",
+      "path": "DESIGN_LANGUAGE.md",
+      "phase": "language",
+      "producer": "codex.local-authoring",
+      "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+    },
+    {
+      "id": "tokens",
+      "kind": "external",
+      "path": "06-tokens/tokens.json",
+      "phase": "tokens",
+      "producer": "codex.local-authoring",
+      "sha256": "6f40d1cc99f0221083a61be418d78949b6c58da5d75ddcea6eb29b428ba4815b"
+    },
+    {
+      "id": "token-governance-md",
+      "kind": "external",
+      "path": "TOKEN_GOVERNANCE.md",
+      "phase": "tokens",
+      "producer": "codex.local-authoring",
+      "sha256": "ed479fe2db328bf2bd94817956d0e5baf02c34f006cec839bf6cae213c522489"
+    },
+    {
+      "id": "components-md",
+      "kind": "external",
+      "path": "COMPONENTS.md",
+      "phase": "components",
+      "producer": "codex.local-authoring",
+      "sha256": "7c119fc76c9b22e1c5063426de89d064294dcef25abb3440e4397aedc74a31e3"
+    },
+    {
+      "id": "component-api-md",
+      "kind": "external",
+      "path": "COMPONENT_API.md",
+      "phase": "components",
+      "producer": "codex.local-authoring",
+      "sha256": "95d76f72ae0b853b56cc3c62398e1d5588869652ee15313b5f958d0bfaff920f"
+    },
+    {
+      "id": "components",
+      "kind": "external",
+      "path": "07-components/components.json",
+      "phase": "components",
+      "producer": "codex.local-authoring",
+      "sha256": "fb87291f4985b7cd081f600704689da94ee9826f3d908648bcd9292f33321a72"
+    },
+    {
+      "id": "implementation-mapping-md",
+      "kind": "external",
+      "path": "IMPLEMENTATION_MAPPING.md",
+      "phase": "implementation",
+      "producer": "codex.local-authoring",
+      "sha256": "d126b8a7abfa222390f2f95ddd8228bcf75c15d198cad2e485fd69a486c9347d"
+    },
+    {
+      "id": "cross-platform-parity-md",
+      "kind": "external",
+      "path": "CROSS_PLATFORM_PARITY.md",
+      "phase": "implementation",
+      "producer": "codex.local-authoring",
+      "sha256": "9272343c42a7432bec1490352dc41cbc46de120adedfd99548219f03c807b280"
+    },
+    {
+      "id": "implementation-web",
+      "kind": "external",
+      "path": "08-implementation/web/components.html",
+      "phase": "implementation",
+      "producer": "codex.local-authoring",
+      "sha256": "3a6e4b4cf72b8a0e4822ed8c2bd609981cfdd5a741c4e23aacbad85eecde8f9b"
+    },
+    {
+      "id": "implementation-swiftui",
+      "kind": "external",
+      "path": "08-implementation/swiftui/Components.swift",
+      "phase": "implementation",
+      "producer": "codex.local-authoring",
+      "sha256": "a031f7d0bb2a377ca7013d0dc24e08ee76d064080f74015edcc2af5d6d478387"
+    },
+    {
+      "id": "implementation-compose",
+      "kind": "external",
+      "path": "08-implementation/compose/Components.kt",
+      "phase": "implementation",
+      "producer": "codex.local-authoring",
+      "sha256": "981ac1000086115152ed6e85cbb9ccbb3be8d7549551384318ed95af7f479c4f"
+    },
+    {
+      "id": "motion-playground-spec-md",
+      "kind": "external",
+      "path": "MOTION_PLAYGROUND_SPEC.md",
+      "phase": "playground",
+      "producer": "codex.local-authoring",
+      "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+    },
+    {
+      "id": "responsive-validation-md",
+      "kind": "external",
+      "path": "RESPONSIVE_VALIDATION.md",
+      "phase": "playground",
+      "producer": "codex.local-authoring",
+      "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+    },
+    {
+      "id": "playground",
+      "kind": "external",
+      "path": "09-playground/components/index.html",
+      "phase": "playground",
+      "producer": "codex.local-authoring",
+      "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+    },
+    {
+      "id": "playground-spec-md",
+      "kind": "external",
+      "path": "PLAYGROUND_SPEC.md",
+      "phase": "playground",
+      "producer": "codex.local-authoring",
+      "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+    },
+    {
+      "id": "validation-md",
+      "kind": "external",
+      "path": "VALIDATION.md",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "d04c5d403e53b03b592aee6acbe5f0f03db17fa87b82937f0afcda3ea284ae65"
+    },
+    {
+      "id": "completeness-matrix-md",
+      "kind": "external",
+      "path": "COMPLETENESS_MATRIX.md",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "55db59eb0100debdeaf982a07474a91ebb3e9cde0baf4ec6fc6677584dfe0754"
+    },
+    {
+      "id": "completeness-json",
+      "kind": "external",
+      "path": "10-canonical-validation/completeness-matrix.json",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "67a827a3b588ce465d7c7bc3a139e4aed2c06839af0a07257fd8543ad0247cc6"
+    },
+    {
+      "id": "gap-log-json",
+      "kind": "external",
+      "path": "gap_log.json",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "34f44cb2966e6ea9e678146ecca718d66b58fd20bb93f7bf0e241feaf988a81b"
+    },
+    {
+      "id": "canonical:01-today",
+      "kind": "external",
+      "path": "10-canonical-validation/canonical-screens/01-today.html",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "c5fb6a225f5c9faa666a731d3b28fe10b5400efce9f1d9b5145cb8cc03730118"
+    },
+    {
+      "id": "canonical:02-log-meal",
+      "kind": "external",
+      "path": "10-canonical-validation/canonical-screens/02-log-meal.html",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "0759c2f1077c64419fbbf19ba07da4eefb8810da447395346a1e55c49eef2348"
+    },
+    {
+      "id": "canonical:03-food-details",
+      "kind": "external",
+      "path": "10-canonical-validation/canonical-screens/03-food-details.html",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "26cdf839c93482a95e4d5e88e767ebed4ddeea7d54208d33993d9580902058f5"
+    },
+    {
+      "id": "canonical:04-habitat",
+      "kind": "external",
+      "path": "10-canonical-validation/canonical-screens/04-habitat.html",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "00331d222a7b33466120d7b17ea17a16686b62648fc9de869bca7028c1b58a0e"
+    },
+    {
+      "id": "canonical:05-progress",
+      "kind": "external",
+      "path": "10-canonical-validation/canonical-screens/05-progress.html",
+      "phase": "canonical_validation",
+      "producer": "codex.local-authoring",
+      "sha256": "e5b323a53f983980dd29d4a0b0862ab1e3d23ca6e54fcf9d61b4fda1f2c2d27e"
+    }
+  ],
+  "version": "3.2.0"
+}

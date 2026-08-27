@@ -1,0 +1,61 @@
+{
+  "components": [
+    {
+      "name": "Button", "category": "control", "purpose": "Trigger a labeled action",
+      "anatomy": ["container", "optional leading icon", "label"], "variants": ["primary", "secondary", "destructive", "ghost"],
+      "sizes": ["medium", "large"], "states": ["default", "pressed", "focused", "disabled", "loading"],
+      "behavior": ["fires one event per activation", "loading prevents duplicate activation"],
+      "tokens": {"height": "component.button.height", "radius": "component.button.radius", "background": "semantic.action.primary"},
+      "content_rules": ["use a verb-led label"], "accessibility": ["44 px minimum target", "visible focus", "announced loading state"]
+    },
+    {
+      "name": "TextInput", "category": "control", "purpose": "Collect or search text input",
+      "anatomy": ["label", "field", "optional icon", "helper or error"], "variants": ["standard", "search"],
+      "states": ["empty", "filled", "focused", "disabled", "error"], "behavior": ["preserves input on validation error"],
+      "tokens": {"radius": "primitive.radius.medium", "text": "semantic.text.primary"},
+      "content_rules": ["visible label or equivalent search purpose"], "accessibility": ["programmatic label", "error association", "keyboard operable"]
+    },
+    {
+      "name": "Card", "category": "content", "purpose": "Group related content and actions",
+      "anatomy": ["optional header", "body", "optional footer"], "variants": ["static", "interactive", "feature"],
+      "states": ["default", "focused", "pressed", "disabled"], "behavior": ["interactive card exposes one primary action"],
+      "tokens": {"radius": "component.card.radius", "padding": "component.card.padding", "surface": "semantic.surface.card"},
+      "content_rules": ["do not nest competing primary actions"], "accessibility": ["semantic grouping", "visible focus when interactive"]
+    },
+    {
+      "name": "AppTabBar", "category": "navigation", "purpose": "Navigate among five primary destinations",
+      "anatomy": ["tab list", "icon", "label", "selection indicator"], "variants": ["light", "navy"],
+      "states": ["default", "selected", "focused"], "behavior": ["preserves destination state", "exactly one selected tab"],
+      "tokens": {"height": "component.tabBar.height", "surface": "semantic.surface.navigation"},
+      "content_rules": ["always show labels"], "accessibility": ["selected state announced", "logical order", "44 px targets"]
+    },
+    {
+      "name": "CalorieRing", "category": "data", "purpose": "Show consumed, remaining, and goal calories",
+      "anatomy": ["track", "progress", "metric", "unit", "goal label"], "variants": ["remaining", "over goal"],
+      "states": ["loading", "ready", "unavailable"], "behavior": ["animates only after confirmed data change"],
+      "tokens": {"progress": "semantic.nutrition.calories", "text": "semantic.text.primary"},
+      "content_rules": ["always expose numeric consumed and goal values"], "accessibility": ["complete text alternative", "not color-only", "reduced-motion safe"]
+    },
+    {
+      "name": "FoodRow", "category": "pattern", "purpose": "Present food nutrition and an add or remove action",
+      "anatomy": ["food icon", "name", "portion", "calories", "action"], "variants": ["search", "logged", "editable"],
+      "states": ["default", "selected", "loading", "error"], "behavior": ["action returns selected food and portion"],
+      "tokens": {"surface": "semantic.surface.card", "action": "semantic.action.primary"},
+      "content_rules": ["show quantity and unit"], "accessibility": ["food name included in action label", "dynamic type reflow"]
+    },
+    {
+      "name": "DailyQuestCard", "category": "pattern", "purpose": "Show one optional healthy action and cosmetic XP",
+      "anatomy": ["title", "description", "progress", "XP", "optional companion"], "variants": ["active", "complete"],
+      "states": ["active", "complete", "disabled"], "behavior": ["opens quest detail", "never changes nutrition totals"],
+      "tokens": {"reward": "semantic.reward.xp", "progress": "semantic.action.primary"},
+      "content_rules": ["never reward restriction or skipped meals"], "accessibility": ["progress described in text", "illustration is optional"]
+    },
+    {
+      "name": "UnlockCelebration", "category": "feedback", "purpose": "Introduce a newly unlocked cosmetic animal friend",
+      "anatomy": ["heading", "friend illustration", "name", "description", "continue action"], "variants": ["standard", "reduced motion"],
+      "states": ["entering", "ready", "dismissed"], "behavior": ["skippable", "interruptible", "returns focus to trigger"],
+      "tokens": {"duration": "primitive.motion.rewardMs", "action": "semantic.action.primary"},
+      "content_rules": ["one short positive description"], "accessibility": ["screen-reader heading", "reduced-motion fallback", "focus managed"]
+    }
+  ]
+}

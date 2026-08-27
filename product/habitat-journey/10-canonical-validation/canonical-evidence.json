@@ -1,0 +1,107 @@
+{
+  "adapter_id": "local.design-artifact",
+  "adapter_sha256": "0f813028b2e27aece86a1143cbe361a5332f3553983c4cea80fb457b8d974881",
+  "generator_version": "3.2.0",
+  "records": [
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "VALIDATION.md",
+          "sha256": "d04c5d403e53b03b592aee6acbe5f0f03db17fa87b82937f0afcda3ea284ae65"
+        },
+        {
+          "path": "COMPLETENESS_MATRIX.md",
+          "sha256": "55db59eb0100debdeaf982a07474a91ebb3e9cde0baf4ec6fc6677584dfe0754"
+        },
+        {
+          "path": "10-canonical-validation/completeness-matrix.json",
+          "sha256": "67a827a3b588ce465d7c7bc3a139e4aed2c06839af0a07257fd8543ad0247cc6"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/01-today.html",
+          "sha256": "c5fb6a225f5c9faa666a731d3b28fe10b5400efce9f1d9b5145cb8cc03730118"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/02-log-meal.html",
+          "sha256": "0759c2f1077c64419fbbf19ba07da4eefb8810da447395346a1e55c49eef2348"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/03-food-details.html",
+          "sha256": "26cdf839c93482a95e4d5e88e767ebed4ddeea7d54208d33993d9580902058f5"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/04-habitat.html",
+          "sha256": "00331d222a7b33466120d7b17ea17a16686b62648fc9de869bca7028c1b58a0e"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/05-progress.html",
+          "sha256": "e5b323a53f983980dd29d4a0b0862ab1e3d23ca6e54fcf9d61b4fda1f2c2d27e"
+        }
+      ],
+      "created_at": "2026-08-25T15:27:36.756783+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-design_quality_validation-001",
+      "requirement_id": "design_quality_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "VALIDATION.md",
+          "sha256": "d04c5d403e53b03b592aee6acbe5f0f03db17fa87b82937f0afcda3ea284ae65"
+        },
+        {
+          "path": "COMPLETENESS_MATRIX.md",
+          "sha256": "55db59eb0100debdeaf982a07474a91ebb3e9cde0baf4ec6fc6677584dfe0754"
+        },
+        {
+          "path": "10-canonical-validation/completeness-matrix.json",
+          "sha256": "67a827a3b588ce465d7c7bc3a139e4aed2c06839af0a07257fd8543ad0247cc6"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/01-today.html",
+          "sha256": "c5fb6a225f5c9faa666a731d3b28fe10b5400efce9f1d9b5145cb8cc03730118"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/02-log-meal.html",
+          "sha256": "0759c2f1077c64419fbbf19ba07da4eefb8810da447395346a1e55c49eef2348"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/03-food-details.html",
+          "sha256": "26cdf839c93482a95e4d5e88e767ebed4ddeea7d54208d33993d9580902058f5"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/04-habitat.html",
+          "sha256": "00331d222a7b33466120d7b17ea17a16686b62648fc9de869bca7028c1b58a0e"
+        },
+        {
+          "path": "10-canonical-validation/canonical-screens/05-progress.html",
+          "sha256": "e5b323a53f983980dd29d4a0b0862ab1e3d23ca6e54fcf9d61b4fda1f2c2d27e"
+        }
+      ],
+      "created_at": "2026-08-25T15:27:36.756783+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-completeness_matrix_validation-002",
+      "requirement_id": "completeness_matrix_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "target_platforms": ["ios", "android"],
+  "form_factors": ["phone_portrait"],
+  "themes": ["light"],
+  "accessibility_target": "WCAG 2.2 AA and native-platform equivalent",
+  "locales": ["en-US"],
+  "support_matrix": {
+    "ios": "current major and previous major",
+    "android": "API 29 and later"
+  },
+  "device_tiers": ["baseline", "high_density"],
+  "product_surfaces": [
+    "onboarding",
+    "today",
+    "food_logging",
+    "food_details",
+    "progress",
+    "habitat",
+    "profile",
+    "system_states"
+  ],
+  "explicit_exclusions": [
+    "medical diagnosis or treatment",
+    "tablet, desktop, web, watch, and landscape layouts",
+    "dark theme",
+    "social competition and leaderboards",
+    "wearable, health-record, and restaurant integrations",
+    "production backend and account infrastructure"
+  ]
+}

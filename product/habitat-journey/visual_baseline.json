@@ -1,0 +1,26 @@
+{
+  "status": "locked",
+  "references": [
+    "03-directions/assets/05-habitat-journey.png",
+    "reference/core-nutrition-screens-v1.png",
+    "reference/habitat-progress-screens-v1.png"
+  ],
+  "fidelity": "high-fidelity concept baseline",
+  "locked_signatures": {
+    "palette": "warm-white canvas, lagoon-teal action, coral calories, yellow XP, leaf-green completion, deep-navy text",
+    "typography": "Nunito Sans UI with Fraunces habitat-display accent",
+    "surfaces": "white cards on warm-white canvas with restrained deep-navy navigation",
+    "density": "comfortable 8-point rhythm",
+    "shape": "rounded 12–20 px cards and circular progress",
+    "iconography": "24 px rounded 2 px stroke with selected fill",
+    "data_visualization": "direct labels and units; never color-only"
+  },
+  "prohibited_drift": [
+    "unmapped raw colors",
+    "photoreal imagery mixed with cartoon assets",
+    "mascot art obscuring nutrition data",
+    "game HUD density on tracking screens",
+    "unlabeled color-only data"
+  ],
+  "drift_check_dimensions": ["palette", "typography", "spacing", "shape", "iconography", "data_visualization", "illustration"]
+}

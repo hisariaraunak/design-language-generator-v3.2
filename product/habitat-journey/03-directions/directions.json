@@ -1,0 +1,9 @@
+{
+  "directions": [
+    {"id": "A", "name": "Woodland Wellness", "summary": "Warm forest wellness with a red-panda guide."},
+    {"id": "B", "name": "Active Animal Crew", "summary": "Bold fitness tracking with a character coaching team."},
+    {"id": "C", "name": "Cozy Kitchen Stories", "summary": "A comforting illustrated recipe-journal experience."},
+    {"id": "D", "name": "Moonlight Minimal", "summary": "Premium minimal tracking with a subtle cat companion."},
+    {"id": "E", "name": "Habitat Journey", "summary": "Practical calorie tracking with restorative habitat progression."}
+  ]
+}

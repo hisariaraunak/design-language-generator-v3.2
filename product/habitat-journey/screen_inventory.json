@@ -1,0 +1,26 @@
+{
+  "primary_navigation": ["today", "log", "progress", "habitat", "profile"],
+  "screens": [
+    "onboarding_goals",
+    "onboarding_preferences",
+    "today",
+    "log_meal",
+    "food_search_results",
+    "food_details",
+    "meal_review",
+    "barcode_result",
+    "custom_food",
+    "progress",
+    "habitat",
+    "friend_unlocked",
+    "friend_collection",
+    "habitat_upgrade",
+    "profile",
+    "settings",
+    "empty",
+    "loading",
+    "offline",
+    "error"
+  ],
+  "canonical_flow": ["today", "log_meal", "food_details", "meal_review", "habitat", "friend_unlocked", "progress"]
+}

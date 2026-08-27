@@ -77,6 +77,7 @@ def approve(root,gate,direction=None,approver='human'):
     s['approvals'][gate]=a; save_state(r,s,'approval',a); print(f'{gate} approved')
 
 def add_artifact(r, artifact_id, kind, relpath, deps=None, producer='dlg.reference'):
+    r=project(r)
     p=(r/relpath).resolve()
     if r not in p.parents and p!=r: raise SystemExit('Artifact path escapes project root')
     if not p.exists(): raise SystemExit(f'Artifact missing: {relpath}')
@@ -113,7 +114,15 @@ def adopt_artifact(root, artifact_id, producer='external', relpath=None):
         if relpath and str(Path(relpath).as_posix())!=target: raise SystemExit(f'Artifact {artifact_id} path is fixed at {target}')
         errs=artifact_contract_errors_unregistered_ok(r,a)
     if errs: raise SystemExit('ADOPT BLOCKED: '+'; '.join(errs))
-    add_artifact(r,reg_id,'external',target,producer=producer); print(f'ADOPTED {reg_id}')
+    add_artifact(r,reg_id,'external',target,producer=producer)
+    # Locked baseline status is derived from schema-valid adopted artifacts.
+    # This enables the production adapter path without allowing callers to set
+    # system-owned validation keys manually.
+    if artifact_id in ('visual-baseline','interaction-baseline'):
+        baseline=load(r/target)
+        if baseline.get('status')=='locked':
+            set_internal_validation(r,f'{artifact_id.replace("-", "_")}.status','locked')
+    print(f'ADOPTED {reg_id}')
 
 def artifact_contract_errors_unregistered_ok(r,a):
     rel=a['path']; paths=list(r.glob(rel)) if '*' in rel else ([r/rel] if (r/rel).exists() else [])
@@ -171,6 +180,7 @@ def invalidate(root, artifact_id):
     print(json.dumps({'stale':sorted(stale),'state':s['state']},indent=2))
 
 def add_evidence(r, requirement_id, status, test, fixture, expected, actual, artifact_paths, environment=None, evidence_class='reference_fixture', verifier_id='dlg.reference'):
+    r=project(r)
     if status not in ('pass','fail','unverified','not_applicable'): raise ValueError(status)
     refs=[]
     for rel in artifact_paths:

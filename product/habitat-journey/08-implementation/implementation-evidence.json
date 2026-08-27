@@ -1,0 +1,83 @@
+{
+  "adapter_id": "local.design-artifact",
+  "adapter_sha256": "0f813028b2e27aece86a1143cbe361a5332f3553983c4cea80fb457b8d974881",
+  "generator_version": "3.2.0",
+  "records": [
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "IMPLEMENTATION_MAPPING.md",
+          "sha256": "d126b8a7abfa222390f2f95ddd8228bcf75c15d198cad2e485fd69a486c9347d"
+        },
+        {
+          "path": "CROSS_PLATFORM_PARITY.md",
+          "sha256": "9272343c42a7432bec1490352dc41cbc46de120adedfd99548219f03c807b280"
+        },
+        {
+          "path": "08-implementation/web/components.html",
+          "sha256": "3a6e4b4cf72b8a0e4822ed8c2bd609981cfdd5a741c4e23aacbad85eecde8f9b"
+        },
+        {
+          "path": "08-implementation/swiftui/Components.swift",
+          "sha256": "a031f7d0bb2a377ca7013d0dc24e08ee76d064080f74015edcc2af5d6d478387"
+        },
+        {
+          "path": "08-implementation/compose/Components.kt",
+          "sha256": "981ac1000086115152ed6e85cbb9ccbb3be8d7549551384318ed95af7f479c4f"
+        }
+      ],
+      "created_at": "2026-08-25T15:23:43.570594+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-cross_platform_parity_validation-001",
+      "requirement_id": "cross_platform_parity_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "IMPLEMENTATION_MAPPING.md",
+          "sha256": "d126b8a7abfa222390f2f95ddd8228bcf75c15d198cad2e485fd69a486c9347d"
+        },
+        {
+          "path": "CROSS_PLATFORM_PARITY.md",
+          "sha256": "9272343c42a7432bec1490352dc41cbc46de120adedfd99548219f03c807b280"
+        },
+        {
+          "path": "08-implementation/web/components.html",
+          "sha256": "3a6e4b4cf72b8a0e4822ed8c2bd609981cfdd5a741c4e23aacbad85eecde8f9b"
+        },
+        {
+          "path": "08-implementation/swiftui/Components.swift",
+          "sha256": "a031f7d0bb2a377ca7013d0dc24e08ee76d064080f74015edcc2af5d6d478387"
+        },
+        {
+          "path": "08-implementation/compose/Components.kt",
+          "sha256": "981ac1000086115152ed6e85cbb9ccbb3be8d7549551384318ed95af7f479c4f"
+        }
+      ],
+      "created_at": "2026-08-25T15:23:43.570594+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-design_to_code_traceability_validation-002",
+      "requirement_id": "design_to_code_traceability_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    }
+  ]
+}

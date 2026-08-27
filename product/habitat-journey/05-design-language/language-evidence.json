@@ -1,0 +1,83 @@
+{
+  "adapter_id": "local.design-artifact",
+  "adapter_sha256": "0f813028b2e27aece86a1143cbe361a5332f3553983c4cea80fb457b8d974881",
+  "generator_version": "3.2.0",
+  "records": [
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "VISUAL_BASELINE.md",
+          "sha256": "0e93a4f9a4a6452862d999f5e5d09e9761f6d86626486a1aa97b3ceba48739f3"
+        },
+        {
+          "path": "INTERACTION_BASELINE.md",
+          "sha256": "5f65e25fcae8affc9bb9c07b60019d6fc14fd163d4a293f759a92e9382e17c47"
+        },
+        {
+          "path": "visual_baseline.json",
+          "sha256": "6d2578ae6f18600eef7893b3ab1d542f8dd827710dc5e22633a4a832d4b09a03"
+        },
+        {
+          "path": "interaction_baseline.json",
+          "sha256": "1c000437472b71e7593f1f31f46b9fa720b052612d2c18b1b78609c7f1a664ad"
+        }
+      ],
+      "created_at": "2026-08-25T15:21:08.173524+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-visual_drift_check-001",
+      "requirement_id": "visual_drift_check",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "VISUAL_BASELINE.md",
+          "sha256": "0e93a4f9a4a6452862d999f5e5d09e9761f6d86626486a1aa97b3ceba48739f3"
+        },
+        {
+          "path": "INTERACTION_BASELINE.md",
+          "sha256": "5f65e25fcae8affc9bb9c07b60019d6fc14fd163d4a293f759a92e9382e17c47"
+        },
+        {
+          "path": "visual_baseline.json",
+          "sha256": "6d2578ae6f18600eef7893b3ab1d542f8dd827710dc5e22633a4a832d4b09a03"
+        },
+        {
+          "path": "interaction_baseline.json",
+          "sha256": "1c000437472b71e7593f1f31f46b9fa720b052612d2c18b1b78609c7f1a664ad"
+        }
+      ],
+      "created_at": "2026-08-25T15:21:08.173524+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-behavior_drift_check-002",
+      "requirement_id": "behavior_drift_check",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    }
+  ]
+}

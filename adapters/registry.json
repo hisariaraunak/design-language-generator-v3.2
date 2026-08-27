@@ -1,4 +1,18 @@
 {
   "version": "3.2.0",
-  "adapters": []
+  "adapters": [
+    {
+      "id": "local.design-artifact",
+      "capability": "ingest",
+      "entrypoint": "adapters/local/design_artifact_verifier.py",
+      "inputs": ["project-artifacts"],
+      "outputs": ["evidence-bundle.json"],
+      "sandbox": {
+        "network": "none",
+        "timeout_seconds": 60,
+        "max_memory_mb": 256
+      },
+      "sha256": "0f813028b2e27aece86a1143cbe361a5332f3553983c4cea80fb457b8d974881"
+    }
+  ]
 }

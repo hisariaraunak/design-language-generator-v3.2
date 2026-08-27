@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Habitat Journey — Design Directions</title>
+<style>
+  :root { color: #123047; background: #f4faf9; font-family: system-ui, sans-serif; }
+  body { margin: 0 auto; max-width: 1180px; padding: 32px; }
+  h1 { font-size: 40px; } h2 { margin-bottom: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 24px; }
+  article { background: white; border: 1px solid #cfe4e1; border-radius: 20px; padding: 16px; }
+  article.selected { border: 4px solid #0c9f9a; }
+  img { width: 100%; border-radius: 12px; }
+  .badge { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #0c9f9a; color: white; font-weight: 700; }
+</style>
+<main>
+  <h1>Five design directions</h1>
+  <div class="grid">
+    <article><h2>Woodland Wellness</h2><img src="assets/01-woodland-wellness.png" alt="Woodland Wellness concept with red panda guide"></article>
+    <article><h2>Active Animal Crew</h2><img src="assets/02-active-animal-crew.png" alt="Active Animal Crew fitness concept"></article>
+    <article><h2>Cozy Kitchen Stories</h2><img src="assets/03-cozy-kitchen-stories.png" alt="Cozy Kitchen Stories capybara concept"></article>
+    <article><h2>Moonlight Minimal</h2><img src="assets/04-moonlight-minimal.png" alt="Moonlight Minimal black cat concept"></article>
+    <article class="selected"><span class="badge">Selected at Gate A</span><h2>Habitat Journey</h2><img src="assets/05-habitat-journey.png" alt="Habitat Journey otter and floating habitat concept"></article>
+  </div>
+</main>
+</html>

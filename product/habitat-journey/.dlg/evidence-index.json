@@ -1,0 +1,138 @@
+{
+  "generator_version": "3.2.0",
+  "records": [
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-scope_contract_validation-001",
+      "requirement_id": "scope_contract_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-visual_drift_check-001",
+      "requirement_id": "visual_drift_check",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-behavior_drift_check-002",
+      "requirement_id": "behavior_drift_check",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-token_governance_validation-001",
+      "requirement_id": "token_governance_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-domain_neutrality_validation-001",
+      "requirement_id": "domain_neutrality_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-common_app_coverage_validation-002",
+      "requirement_id": "common_app_coverage_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-component_api_quality_validation-003",
+      "requirement_id": "component_api_quality_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-cross_platform_parity_validation-001",
+      "requirement_id": "cross_platform_parity_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-design_to_code_traceability_validation-002",
+      "requirement_id": "design_to_code_traceability_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-motion_validation-001",
+      "requirement_id": "motion_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-accessibility_validation-002",
+      "requirement_id": "accessibility_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-responsive_validation-003",
+      "requirement_id": "responsive_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-icon_system_validation-004",
+      "requirement_id": "icon_system_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-theme_validation-005",
+      "requirement_id": "theme_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-typography_validation-006",
+      "requirement_id": "typography_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-content_design_validation-007",
+      "requirement_id": "content_design_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-data_visualization_validation-008",
+      "requirement_id": "data_visualization_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-design_quality_validation-001",
+      "requirement_id": "design_quality_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "evidence_class": "trusted_verifier",
+      "id": "local-design-completeness_matrix_validation-002",
+      "requirement_id": "completeness_matrix_validation",
+      "status": "pass",
+      "verifier_id": "local.design-artifact"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{"at": "2026-08-25T15:13:28.359081+00:00", "detail": {"design_system_version": "0.1.0", "execution_profile": "production"}, "event": "init"}
+{"at": "2026-08-25T15:14:01.099953+00:00", "detail": {"id": "scope-contract-md", "path": "SCOPE_CONTRACT.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:14:01.178274+00:00", "detail": {"id": "scope", "path": "scope.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:14:01.250186+00:00", "detail": {"key": "source_input.available", "status": "true"}, "event": "manual_validation"}
+{"at": "2026-08-25T15:17:16.449623+00:00", "detail": {"protected_evaluated": 1}, "event": "evaluate"}
+{"at": "2026-08-25T15:17:16.532883+00:00", "detail": {"from": "intake_scope", "to": "visual_dna"}, "event": "advance"}
+{"at": "2026-08-25T15:18:35.412600+00:00", "detail": {"id": "visual-dna", "path": "VISUAL_DNA.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:18:35.492454+00:00", "detail": {"id": "screen-inventory-json", "path": "screen_inventory.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:18:35.574931+00:00", "detail": {"from": "visual_dna", "to": "interview"}, "event": "advance"}
+{"at": "2026-08-25T15:18:35.651984+00:00", "detail": {"id": "decisions", "path": "DESIGN_DECISIONS.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:18:35.728552+00:00", "detail": {"id": "project-state-json", "path": "project_state.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:18:35.809682+00:00", "detail": {"from": "interview", "to": "directions"}, "event": "advance"}
+{"at": "2026-08-25T15:18:35.885952+00:00", "detail": {"id": "directions-md", "path": "DIRECTIONS.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:18:35.962584+00:00", "detail": {"id": "directions", "path": "03-directions/directions.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:19:18.712953+00:00", "detail": {"id": "directions-json", "path": "03-directions/directions.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:19:18.804351+00:00", "detail": {"from": "directions", "to": "gate_a"}, "event": "advance"}
+{"at": "2026-08-25T15:19:18.876917+00:00", "detail": {"approver": "product-owner", "at": "2026-08-25T15:19:18.872409+00:00", "direction": "E", "gate": "gate_a", "state_revision": 16, "status": "approved"}, "event": "approval"}
+{"at": "2026-08-25T15:19:18.950290+00:00", "detail": {"from": "gate_a", "to": "baselines"}, "event": "advance"}
+{"at": "2026-08-25T15:20:53.654809+00:00", "detail": {"id": "visual-baseline-md", "path": "VISUAL_BASELINE.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:20:53.738078+00:00", "detail": {"id": "visual-baseline", "path": "visual_baseline.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:20:53.747448+00:00", "detail": {"key": "visual_baseline.status", "status": "locked"}, "event": "system_validation"}
+{"at": "2026-08-25T15:20:53.825323+00:00", "detail": {"id": "interaction-baseline-md", "path": "INTERACTION_BASELINE.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:20:53.903129+00:00", "detail": {"id": "interaction-baseline", "path": "interaction_baseline.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:20:53.912882+00:00", "detail": {"key": "interaction_baseline.status", "status": "locked"}, "event": "system_validation"}
+{"at": "2026-08-25T15:20:54.007405+00:00", "detail": {"from": "baselines", "to": "language"}, "event": "advance"}
+{"at": "2026-08-25T15:21:08.144776+00:00", "detail": {"id": "language", "path": "DESIGN_LANGUAGE.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:21:08.253216+00:00", "detail": {"protected_evaluated": 3}, "event": "evaluate"}
+{"at": "2026-08-25T15:21:08.331524+00:00", "detail": {"from": "language", "to": "tokens"}, "event": "advance"}
+{"at": "2026-08-25T15:21:45.251130+00:00", "detail": {"id": "tokens", "path": "06-tokens/tokens.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:21:45.333004+00:00", "detail": {"id": "token-governance-md", "path": "TOKEN_GOVERNANCE.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:21:45.434961+00:00", "detail": {"protected_evaluated": 4}, "event": "evaluate"}
+{"at": "2026-08-25T15:21:45.517482+00:00", "detail": {"from": "tokens", "to": "components"}, "event": "advance"}
+{"at": "2026-08-25T15:22:47.819793+00:00", "detail": {"id": "components-md", "path": "COMPONENTS.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:22:47.902358+00:00", "detail": {"id": "component-api-md", "path": "COMPONENT_API.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:22:47.984664+00:00", "detail": {"id": "components", "path": "07-components/components.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:22:48.090801+00:00", "detail": {"protected_evaluated": 7}, "event": "evaluate"}
+{"at": "2026-08-25T15:22:48.181610+00:00", "detail": {"from": "components", "to": "implementation"}, "event": "advance"}
+{"at": "2026-08-25T15:23:43.224958+00:00", "detail": {"id": "implementation-mapping-md", "path": "IMPLEMENTATION_MAPPING.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:23:43.307941+00:00", "detail": {"id": "cross-platform-parity-md", "path": "CROSS_PLATFORM_PARITY.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:23:43.387947+00:00", "detail": {"id": "implementation-web", "path": "08-implementation/web/components.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:23:43.466416+00:00", "detail": {"id": "implementation-swiftui", "path": "08-implementation/swiftui/Components.swift"}, "event": "artifact"}
+{"at": "2026-08-25T15:23:43.544748+00:00", "detail": {"id": "implementation-compose", "path": "08-implementation/compose/Components.kt"}, "event": "artifact"}
+{"at": "2026-08-25T15:23:43.648701+00:00", "detail": {"protected_evaluated": 9}, "event": "evaluate"}
+{"at": "2026-08-25T15:23:43.748192+00:00", "detail": {"from": "implementation", "to": "playground"}, "event": "advance"}
+{"at": "2026-08-25T15:25:34.273689+00:00", "detail": {"id": "playground-spec-md", "path": "PLAYGROUND_SPEC.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:25:34.354809+00:00", "detail": {"id": "motion-playground-spec-md", "path": "MOTION_PLAYGROUND_SPEC.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:25:34.435484+00:00", "detail": {"id": "responsive-validation-md", "path": "RESPONSIVE_VALIDATION.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:25:34.514708+00:00", "detail": {"id": "playground", "path": "09-playground/components/index.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:26:00.147348+00:00", "detail": {"id": "playground-spec-md", "path": "PLAYGROUND_SPEC.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:26:00.269751+00:00", "detail": {"protected_evaluated": 17}, "event": "evaluate"}
+{"at": "2026-08-25T15:26:00.365128+00:00", "detail": {"from": "playground", "to": "canonical_validation"}, "event": "advance"}
+{"at": "2026-08-25T15:27:36.090046+00:00", "detail": {"id": "validation-md", "path": "VALIDATION.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.173230+00:00", "detail": {"id": "completeness-matrix-md", "path": "COMPLETENESS_MATRIX.md"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.254542+00:00", "detail": {"id": "completeness-json", "path": "10-canonical-validation/completeness-matrix.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.333790+00:00", "detail": {"id": "gap-log-json", "path": "gap_log.json"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.413033+00:00", "detail": {"id": "canonical:01-today", "path": "10-canonical-validation/canonical-screens/01-today.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.492224+00:00", "detail": {"id": "canonical:02-log-meal", "path": "10-canonical-validation/canonical-screens/02-log-meal.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.572359+00:00", "detail": {"id": "canonical:03-food-details", "path": "10-canonical-validation/canonical-screens/03-food-details.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.650979+00:00", "detail": {"id": "canonical:04-habitat", "path": "10-canonical-validation/canonical-screens/04-habitat.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.730421+00:00", "detail": {"id": "canonical:05-progress", "path": "10-canonical-validation/canonical-screens/05-progress.html"}, "event": "artifact"}
+{"at": "2026-08-25T15:27:36.836846+00:00", "detail": {"protected_evaluated": 19}, "event": "evaluate"}
+{"at": "2026-08-25T15:27:36.940077+00:00", "detail": {"from": "canonical_validation", "to": "gate_b"}, "event": "advance"}

@@ -1,0 +1,311 @@
+{
+  "adapter_id": "local.design-artifact",
+  "adapter_sha256": "0f813028b2e27aece86a1143cbe361a5332f3553983c4cea80fb457b8d974881",
+  "generator_version": "3.2.0",
+  "records": [
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-motion_validation-001",
+      "requirement_id": "motion_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-accessibility_validation-002",
+      "requirement_id": "accessibility_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-responsive_validation-003",
+      "requirement_id": "responsive_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-icon_system_validation-004",
+      "requirement_id": "icon_system_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-theme_validation-005",
+      "requirement_id": "theme_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-typography_validation-006",
+      "requirement_id": "typography_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-content_design_validation-007",
+      "requirement_id": "content_design_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    },
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "PLAYGROUND_SPEC.md",
+          "sha256": "d16610dd5d16e3f1af84df2e5a198418a483d8d401a68c2b944b7ca54832a54f"
+        },
+        {
+          "path": "MOTION_PLAYGROUND_SPEC.md",
+          "sha256": "4e906ede4d1bda8c1c6c75adb5066421e830538402a239f7e9fee53fdf5b474d"
+        },
+        {
+          "path": "RESPONSIVE_VALIDATION.md",
+          "sha256": "fedcb667e52def69a1d037f4e6eb62150283230ac06ac37b390bcef9f8cc6d98"
+        },
+        {
+          "path": "DESIGN_LANGUAGE.md",
+          "sha256": "148f30d0a309e9d0561743afdcc75965b8e87927729d059fc0fa1c104cb1b34f"
+        },
+        {
+          "path": "09-playground/components/index.html",
+          "sha256": "8c5c289236d5cdf6b7d0c4c5265d4df13413b7d832f517b459a0c1249599dd85"
+        }
+      ],
+      "created_at": "2026-08-25T15:26:00.175893+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-data_visualization_validation-008",
+      "requirement_id": "data_visualization_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    }
+  ]
+}

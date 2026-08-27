@@ -1,0 +1,15 @@
+{
+  "items": [
+    {"area": "scope", "status": "PASS", "critical": true},
+    {"area": "direction", "status": "PASS", "critical": true},
+    {"area": "baselines", "status": "PASS", "critical": true},
+    {"area": "tokens", "status": "PASS", "critical": true},
+    {"area": "components", "status": "PASS", "critical": true},
+    {"area": "implementation_mapping", "status": "PASS", "critical": true},
+    {"area": "playground", "status": "PASS", "critical": true},
+    {"area": "canonical_screens", "status": "PASS", "critical": true},
+    {"area": "accessibility_design", "status": "PASS", "critical": true},
+    {"area": "production_verification", "status": "N/A", "critical": false, "note": "Requires post–Gate B external runtime evidence"}
+  ],
+  "validation": "pass"
+}

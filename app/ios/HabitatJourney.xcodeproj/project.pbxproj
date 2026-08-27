@@ -1,0 +1,105 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+
+		A10000000000000000000001 /* HabitatJourneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* HabitatJourneyApp.swift */; };
+		A10000000000000000000002 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* DesignTokens.swift */; };
+		A10000000000000000000003 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* Models.swift */; };
+		A10000000000000000000004 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* AppStore.swift */; };
+		A10000000000000000000005 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* Components.swift */; };
+		A10000000000000000000006 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* RootView.swift */; };
+		A10000000000000000000007 /* SecondaryScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000007 /* SecondaryScreens.swift */; };
+		A10000000000000000000008 /* TodayOtter.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* TodayOtter.png */; };
+		A10000000000000000000009 /* RiverHabitat.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000009 /* RiverHabitat.png */; };
+		A1000000000000000000000A /* Shelly.png in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000A /* Shelly.png */; };
+		A1000000000000000000000C /* BackendClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000C /* BackendClient.swift */; };
+		A1000000000000000000000D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000D /* PrivacyInfo.xcprivacy */; };
+		A1000000000000000000000E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000E /* Assets.xcassets */; };
+		A1000000000000000000000F /* TodayHero-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000000F /* TodayHero-v2.png */; };
+		A10000000000000000000010 /* MacroProtein.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000010 /* MacroProtein.png */; };
+		A10000000000000000000011 /* MacroCarbs.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* MacroCarbs.png */; };
+		A10000000000000000000012 /* MacroFat.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* MacroFat.png */; };
+		A10000000000000000000013 /* MacroFiber.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* MacroFiber.png */; };
+		A10000000000000000000014 /* HydrationOtter-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* HydrationOtter-v1.png */; };
+		A10000000000000000000015 /* MealBreakfast-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* MealBreakfast-v1.png */; };
+		A10000000000000000000016 /* MealLunch-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* MealLunch-v1.png */; };
+		A10000000000000000000017 /* MealDinner-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000017 /* MealDinner-v1.png */; };
+		A10000000000000000000018 /* MealSnack-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* MealSnack-v1.png */; };
+		A10000000000000000000019 /* TodayHeroBackground-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* TodayHeroBackground-v1.png */; };
+		A1000000000000000000001A /* TodayOtterLayer-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001A /* TodayOtterLayer-v1.png */; };
+		A1000000000000000000001B /* WaterQuestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000000000000000000001B /* WaterQuestUITests.swift */; };
+		A10000000000000000000021 /* TodayHeroBackground-Sunrise-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* TodayHeroBackground-Sunrise-v1.png */; };
+		A10000000000000000000022 /* TodayHeroBackground-Day-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000022 /* TodayHeroBackground-Day-v1.png */; };
+		A10000000000000000000023 /* TodayHeroBackground-Sunset-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000023 /* TodayHeroBackground-Sunset-v1.png */; };
+		A10000000000000000000024 /* TodayHeroBackground-Night-v1.png in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* TodayHeroBackground-Night-v1.png */; };
+
+		B10000000000000000000001 /* HabitatJourneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitatJourneyApp.swift; sourceTree = "<group>"; };
+		B10000000000000000000002 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B10000000000000000000004 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		B10000000000000000000006 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B10000000000000000000007 /* SecondaryScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryScreens.swift; sourceTree = "<group>"; };
+		B10000000000000000000008 /* TodayOtter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TodayOtter.png; sourceTree = "<group>"; };
+		B10000000000000000000009 /* RiverHabitat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RiverHabitat.png; sourceTree = "<group>"; };
+		B1000000000000000000000A /* Shelly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shelly.png; sourceTree = "<group>"; };
+		B1000000000000000000000B /* HabitatJourney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HabitatJourney.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1000000000000000000000C /* BackendClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendClient.swift; sourceTree = "<group>"; };
+		B1000000000000000000000D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B1000000000000000000000E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1000000000000000000000F /* TodayHero-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayHero-v2.png"; sourceTree = "<group>"; };
+		B10000000000000000000010 /* MacroProtein.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MacroProtein.png; sourceTree = "<group>"; };
+		B10000000000000000000011 /* MacroCarbs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MacroCarbs.png; sourceTree = "<group>"; };
+		B10000000000000000000012 /* MacroFat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MacroFat.png; sourceTree = "<group>"; };
+		B10000000000000000000013 /* MacroFiber.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MacroFiber.png; sourceTree = "<group>"; };
+		B10000000000000000000014 /* HydrationOtter-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HydrationOtter-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000015 /* MealBreakfast-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MealBreakfast-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000016 /* MealLunch-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MealLunch-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000017 /* MealDinner-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MealDinner-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000018 /* MealSnack-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MealSnack-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000019 /* TodayHeroBackground-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayHeroBackground-v1.png"; sourceTree = "<group>"; };
+		B1000000000000000000001A /* TodayOtterLayer-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayOtterLayer-v1.png"; sourceTree = "<group>"; };
+		B1000000000000000000001B /* WaterQuestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterQuestUITests.swift; sourceTree = "<group>"; };
+		B1000000000000000000001C /* HabitatJourneyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HabitatJourneyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000021 /* TodayHeroBackground-Sunrise-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayHeroBackground-Sunrise-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000022 /* TodayHeroBackground-Day-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayHeroBackground-Day-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000023 /* TodayHeroBackground-Sunset-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayHeroBackground-Sunset-v1.png"; sourceTree = "<group>"; };
+		B10000000000000000000024 /* TodayHeroBackground-Night-v1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TodayHeroBackground-Night-v1.png"; sourceTree = "<group>"; };
+
+		E40000000000000000000001 = {isa = PBXContainerItemProxy; containerPortal = E10000000000000000000002 /* Project object */; proxyType = 1; remoteGlobalIDString = E10000000000000000000001; remoteInfo = HabitatJourney; };
+
+		C10000000000000000000001 = {isa = PBXGroup; children = (C10000000000000000000002 /* HabitatJourney */, C10000000000000000000006 /* HabitatJourneyUITests */, C10000000000000000000005 /* Products */); sourceTree = "<group>"; };
+		C10000000000000000000002 /* HabitatJourney */ = {isa = PBXGroup; children = (C10000000000000000000003 /* Sources */, C10000000000000000000004 /* Resources */); path = HabitatJourney; sourceTree = "<group>"; };
+		C10000000000000000000003 /* Sources */ = {isa = PBXGroup; children = (B10000000000000000000001, B10000000000000000000002, B10000000000000000000003, B10000000000000000000004, B10000000000000000000005, B10000000000000000000006, B10000000000000000000007, B1000000000000000000000C); path = Sources; sourceTree = "<group>"; };
+		C10000000000000000000004 /* Resources */ = {isa = PBXGroup; children = (B10000000000000000000008, B10000000000000000000009, B1000000000000000000000A, B1000000000000000000000D, B1000000000000000000000E, B1000000000000000000000F, B10000000000000000000010, B10000000000000000000011, B10000000000000000000012, B10000000000000000000013, B10000000000000000000014, B10000000000000000000015, B10000000000000000000016, B10000000000000000000017, B10000000000000000000018, B10000000000000000000019, B1000000000000000000001A, B10000000000000000000021, B10000000000000000000022, B10000000000000000000023, B10000000000000000000024); path = Resources; sourceTree = "<group>"; };
+		C10000000000000000000005 /* Products */ = {isa = PBXGroup; children = (B1000000000000000000000B, B1000000000000000000001C); name = Products; sourceTree = "<group>"; };
+		C10000000000000000000006 /* HabitatJourneyUITests */ = {isa = PBXGroup; children = (B1000000000000000000001B); path = HabitatJourneyUITests; sourceTree = "<group>"; };
+
+		D10000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001, A10000000000000000000002, A10000000000000000000003, A10000000000000000000004, A10000000000000000000005, A10000000000000000000006, A10000000000000000000007, A1000000000000000000000C); runOnlyForDeploymentPostprocessing = 0; };
+		D10000000000000000000002 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		D10000000000000000000003 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000008, A10000000000000000000009, A1000000000000000000000A, A1000000000000000000000D, A1000000000000000000000E, A1000000000000000000000F, A10000000000000000000010, A10000000000000000000011, A10000000000000000000012, A10000000000000000000013, A10000000000000000000014, A10000000000000000000015, A10000000000000000000016, A10000000000000000000017, A10000000000000000000018, A10000000000000000000019, A1000000000000000000001A, A10000000000000000000021, A10000000000000000000022, A10000000000000000000023, A10000000000000000000024); runOnlyForDeploymentPostprocessing = 0; };
+		D10000000000000000000004 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A1000000000000000000001B); runOnlyForDeploymentPostprocessing = 0; };
+		D10000000000000000000005 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		D10000000000000000000006 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+
+		E10000000000000000000001 /* HabitatJourney */ = {isa = PBXNativeTarget; buildConfigurationList = F10000000000000000000002; buildPhases = (D10000000000000000000001, D10000000000000000000002, D10000000000000000000003); buildRules = (); dependencies = (); name = HabitatJourney; productName = HabitatJourney; productReference = B1000000000000000000000B; productType = "com.apple.product-type.application"; };
+		E10000000000000000000003 /* HabitatJourneyUITests */ = {isa = PBXNativeTarget; buildConfigurationList = F10000000000000000000003; buildPhases = (D10000000000000000000004, D10000000000000000000005, D10000000000000000000006); buildRules = (); dependencies = (E30000000000000000000001); name = HabitatJourneyUITests; productName = HabitatJourneyUITests; productReference = B1000000000000000000001C; productType = "com.apple.product-type.bundle.ui-testing"; };
+		E10000000000000000000002 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 2660; LastUpgradeCheck = 2660; TargetAttributes = {E10000000000000000000001 = {CreatedOnToolsVersion = 26.6; }; E10000000000000000000003 = {CreatedOnToolsVersion = 26.6; TestTargetID = E10000000000000000000001; };};}; buildConfigurationList = F10000000000000000000001; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = C10000000000000000000001; productRefGroup = C10000000000000000000005; projectDirPath = ""; projectRoot = ""; targets = (E10000000000000000000001, E10000000000000000000003); };
+
+		E30000000000000000000001 = {isa = PBXTargetDependency; target = E10000000000000000000001 /* HabitatJourney */; targetProxy = E40000000000000000000001; };
+
+		F10000000000000000000001 = {isa = XCConfigurationList; buildConfigurations = (F20000000000000000000001 /* Debug */, F20000000000000000000002 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F10000000000000000000002 = {isa = XCConfigurationList; buildConfigurations = (F20000000000000000000003 /* Debug */, F20000000000000000000004 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F10000000000000000000003 = {isa = XCConfigurationList; buildConfigurations = (F20000000000000000000005 /* Debug */, F20000000000000000000006 /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F20000000000000000000001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; GCC_OPTIMIZATION_LEVEL = 0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; SWIFT_OPTIMIZATION_LEVEL = "-Onone";}; name = Debug; };
+		F20000000000000000000002 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CLANG_ENABLE_MODULES = YES; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_OPTIMIZATION_LEVEL = "-O"; VALIDATE_PRODUCT = YES;}; name = Release; };
+		F20000000000000000000003 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; ENABLE_PREVIEWS = YES; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Habitat Journey"; INFOPLIST_KEY_HJBackendBaseURL = "http://127.0.0.1:8000/"; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 0.9.0; PRODUCT_BUNDLE_IDENTIFIER = com.habitatjourney.app; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 6.0; TARGETED_DEVICE_FAMILY = 1;}; name = Debug; };
+		F20000000000000000000004 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Habitat Journey"; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness"; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MARKETING_VERSION = 0.9.0; PRODUCT_BUNDLE_IDENTIFIER = com.habitatjourney.app; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; SUPPORTS_MACCATALYST = NO; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 6.0; TARGETED_DEVICE_FAMILY = 1;}; name = Release; };
+		F20000000000000000000005 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = ""; GENERATE_INFOPLIST_FILE = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.habitatjourney.app.UITests; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = iphonesimulator; SWIFT_VERSION = 6.0; TARGETED_DEVICE_FAMILY = 1; TEST_TARGET_NAME = HabitatJourney; }; name = Debug; };
+		F20000000000000000000006 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_STYLE = Automatic; DEVELOPMENT_TEAM = ""; GENERATE_INFOPLIST_FILE = YES; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.habitatjourney.app.UITests; PRODUCT_NAME = "$(TARGET_NAME)"; SUPPORTED_PLATFORMS = iphonesimulator; SWIFT_VERSION = 6.0; TARGETED_DEVICE_FAMILY = 1; TEST_TARGET_NAME = HabitatJourney; }; name = Release; };
+	};
+	rootObject = E10000000000000000000002 /* Project object */;
+}

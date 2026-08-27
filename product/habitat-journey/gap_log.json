@@ -1,0 +1,8 @@
+{
+  "critical": [],
+  "major": [],
+  "minor": [
+    {"id": "asset-001", "area": "illustration", "summary": "Replace emoji prototype stand-ins with final licensed or generated character and food assets before production implementation."},
+    {"id": "research-001", "area": "usability", "summary": "Run moderated usability tests on meal logging and reward timing before Gate B approval."}
+  ]
+}

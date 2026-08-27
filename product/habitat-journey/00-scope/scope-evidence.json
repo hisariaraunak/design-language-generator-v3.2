@@ -1,0 +1,33 @@
+{
+  "adapter_id": "local.design-artifact",
+  "adapter_sha256": "0f813028b2e27aece86a1143cbe361a5332f3553983c4cea80fb457b8d974881",
+  "generator_version": "3.2.0",
+  "records": [
+    {
+      "actual": "all deterministic local checks passed",
+      "artifacts": [
+        {
+          "path": "SCOPE_CONTRACT.md",
+          "sha256": "208b642976b033d78a4d11803e914ebbc901969d5966b5494173a5ecb250eaeb"
+        },
+        {
+          "path": "scope.json",
+          "sha256": "0a4b3d13084b2cf4b5169e3e651ed7d3b837e2ab7da1b62811e84db801a65520"
+        }
+      ],
+      "created_at": "2026-08-25T15:17:16.372810+00:00",
+      "environment": {
+        "generator_version": "3.2.0",
+        "network": "none"
+      },
+      "evidence_class": "trusted_verifier",
+      "expected": "all supplied artifacts are substantive and contain required design-contract markers",
+      "fixture": "habitat-journey-production-artifacts",
+      "id": "local-design-scope_contract_validation-001",
+      "requirement_id": "scope_contract_validation",
+      "status": "pass",
+      "test": "artifact integrity, parseability, prohibited placeholders, and requirement markers",
+      "verifier_id": "local.design-artifact"
+    }
+  ]
+}
