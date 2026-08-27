@@ -189,3 +189,67 @@ final class MealManagementUITests: XCTestCase {
         return app
     }
 }
+
+@MainActor
+final class ProgressUITests: XCTestCase {
+    override func setUp() {
+        continueAfterFailure = false
+    }
+
+    func testProgressDashboardShowsAllSevenSectionsAndCalorieDetail() {
+        let app = launch("--reset-demo", "--screen", "progress")
+        XCTAssertTrue(app.descendants(matching: .any)["progress.streak"].waitForExistence(timeout: 4))
+        let calories = app.descendants(matching: .any)["progress.calories"]
+        XCTAssertTrue(calories.waitForExistence(timeout: 3))
+        XCTAssertTrue(app.descendants(matching: .any)["progress.macros"].exists)
+        calories.tap()
+        XCTAssertTrue(app.navigationBars["Calories"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts["Daily totals and goal range"].exists)
+    }
+
+    func testWeightPeriodsAndAchievementDrillDown() {
+        let app = launch("--reset-demo", "--screen", "progress")
+        let scroll = app.scrollViews.firstMatch
+        XCTAssertTrue(scroll.waitForExistence(timeout: 4))
+        scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.76))
+            .press(forDuration: 0.05, thenDragTo: scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.43)))
+
+        let weight = app.descendants(matching: .any)["progress.weight"]
+        XCTAssertTrue(weight.waitForExistence(timeout: 3))
+        let month = app.segmentedControls.buttons["1M"]
+        XCTAssertTrue(month.waitForExistence(timeout: 2))
+        XCTAssertTrue(month.isHittable)
+        month.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        app.buttons["progress.weight"].tap()
+        XCTAssertTrue(app.navigationBars["Weight trend"].waitForExistence(timeout: 3))
+
+        app.navigationBars["Weight trend"].buttons.firstMatch.tap()
+        scroll.swipeUp()
+        let badge = app.descendants(matching: .any)["progress.badge.steady-otter"]
+        XCTAssertTrue(badge.waitForExistence(timeout: 3))
+        badge.tap()
+        XCTAssertTrue(app.navigationBars["Steady Otter"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts["Badge earned"].exists)
+    }
+
+    func testProgressLoadingEmptyAndInsufficientStates() {
+        var app = launch("--reset-demo", "--screen", "progress", "--progress-state", "loading")
+        XCTAssertTrue(app.descendants(matching: .any)["progress.loading"].waitForExistence(timeout: 4))
+
+        app.terminate()
+        app = launch("--reset-demo", "--screen", "progress", "--progress-state", "empty")
+        XCTAssertTrue(app.descendants(matching: .any)["progress.empty"].waitForExistence(timeout: 4))
+        XCTAssertTrue(app.staticTexts["Your trail starts here"].exists)
+
+        app.terminate()
+        app = launch("--reset-demo", "--screen", "progress", "--progress-state", "insufficient")
+        XCTAssertTrue(app.descendants(matching: .any)["progress.insufficient"].firstMatch.waitForExistence(timeout: 4))
+    }
+
+    private func launch(_ arguments: String...) -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments = arguments
+        app.launch()
+        return app
+    }
+}

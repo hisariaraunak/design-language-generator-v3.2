@@ -185,10 +185,22 @@ enum SeedData {
         let breakfastFood = Food(name: "Berry oatmeal", detail: "1 bowl", emoji: "🥣", calories: 360, macros: .init(protein: 18, carbs: 56, fat: 9, fiber: 8))
         let lunchFood = Food(name: "Power bowl", detail: "1 bowl", emoji: "🥗", calories: 520, macros: .init(protein: 32, carbs: 60, fat: 17, fiber: 9))
         let snackFood = Food(name: "Apple & almonds", detail: "1 serving", emoji: "🍎", calories: 150, macros: .init(protein: 4, carbs: 18, fat: 8, fiber: 4))
-        return PersistedState(entries: [
+        var entries = [
             FoodEntry(id: UUID(), food: breakfastFood, servings: 1, meal: .breakfast, loggedAt: now),
             FoodEntry(id: UUID(), food: lunchFood, servings: 1, meal: .lunch, loggedAt: now),
             FoodEntry(id: UUID(), food: snackFood, servings: 1, meal: .snack, loggedAt: now)
-        ], goals: NutritionGoals(), habitat: HabitatState(), weights: (0..<7).map { i in WeightRecord(id: UUID(), date: calendar.date(byAdding: .day, value: -i, to: now)!, kilograms: 70.4 + Double(i) * 0.18) }, streak: 7, waterLiters: 1.2)
+        ]
+        let historicalCalories = [1_710, 1_820, 1_560, 1_680, 1_740, 1_620]
+        for (offset, calories) in historicalCalories.enumerated() {
+            let food = Food(
+                name: "Daily nutrition",
+                detail: "Logged meals",
+                emoji: "🍽️",
+                calories: calories,
+                macros: .init(protein: Double(calories) * 0.075, carbs: Double(calories) * 0.115, fat: Double(calories) * 0.033, fiber: Double(calories) * 0.016)
+            )
+            entries.append(FoodEntry(id: UUID(), food: food, servings: 1, meal: .dinner, loggedAt: calendar.date(byAdding: .day, value: -(offset + 1), to: now) ?? now))
+        }
+        return PersistedState(entries: entries, goals: NutritionGoals(), habitat: HabitatState(), weights: (0..<7).map { i in WeightRecord(id: UUID(), date: calendar.date(byAdding: .day, value: -i, to: now)!, kilograms: 70.4 + Double(i) * 0.18) }, streak: 7, waterLiters: 1.2)
     }
 }
